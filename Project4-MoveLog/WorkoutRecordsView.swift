@@ -34,7 +34,7 @@ struct WorkoutRecordsView: View {
                         .fontWeight(.bold)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .foregroundStyle(Color("textColor"))
-                    NavigationLink(destination: ContentView()) {
+                    NavigationLink(destination: WorkoutListView()) {
                         Text("운동추가")
                             .frame(maxWidth: 100, minHeight: 30)
                             .foregroundStyle(Color("textColor"))

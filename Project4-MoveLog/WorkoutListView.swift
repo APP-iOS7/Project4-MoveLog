@@ -10,7 +10,7 @@ import SwiftData
 
 struct WorkoutListView: View {
     @Environment(\.modelContext) private var modelContext
-    @Environment(\.dismiss) private var dismiss
+ 
     
     @Query private var workouts: [Workout]  // 전체 운동 목록을 불러옴
     @State private var searchText = "" // 검색어 상태
@@ -39,22 +39,14 @@ struct WorkoutListView: View {
                 // 운동 리스트
                 List {
                     ForEach(filteredWorkouts) { workout in
-                        HStack {
-                            Text(workout.name)
-                                .font(.title3)
-                            Spacer()
+                        NavigationLink {
+                            WorkoutEditView(workout: workout)
+                        } label: {
+                            HStack {
+                                Text(workout.name)
+                            }
                         }
                         .padding(.vertical, 5)
-//                        .swipeActions(edge: .leading, allowsFullSwipe: false) {
-//                            Button("Edit") {
-//                                selectedWorkout = workout  //  선택한 운동 저장
-//                            }
-//                            .tint(.blue)
-//                        }
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            selectedWorkout = workout
-                        }
 
                     }
                     
@@ -68,20 +60,13 @@ struct WorkoutListView: View {
             .navigationTitle("운동 목록")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: WorkoutEditView(workout: Workout(name: "새 운동", duration: 0, caloriesBurned: 0, date: Date(), type: .cardio))) {
+                    NavigationLink(destination: WorkoutAddView()) {
                         Text("추가")
                     }
                 }
             }
-            //  Edit 버튼을 눌렀을 때 WorkOutEditView로 이동
-            .navigationDestination(isPresented: Binding(
-                get: { selectedWorkout != nil },
-                set: { if !$0 { selectedWorkout = nil } }
-            )) {
-                if let workout = selectedWorkout {
-                    WorkoutEditView(workout: workout)
-                }
-            }
+           
+    
         }
     }
     
