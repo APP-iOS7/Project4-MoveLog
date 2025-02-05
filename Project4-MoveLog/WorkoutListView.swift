@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct WorkOutListView: View {
+struct WorkoutListView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     
@@ -68,7 +68,7 @@ struct WorkOutListView: View {
             .navigationTitle("운동 목록")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: WorkOutEditView(workOut: Workout(name: "새 운동", duration: 0, caloriesBurned: 0, date: Date()))) {
+                    NavigationLink(destination: WorkoutEditView(workOut: Workout(name: "새 운동", duration: 0, caloriesBurned: 0, date: Date(), type: .cardio))) {
                         Text("추가")
                     }
                 }
@@ -79,7 +79,7 @@ struct WorkOutListView: View {
                 set: { if !$0 { selectedWorkout = nil } }
             )) {
                 if let workout = selectedWorkout {
-                    WorkOutEditView(workOut: workout)
+                    WorkoutEditView(workOut: workout)
                 }
             }
         }
@@ -96,6 +96,6 @@ struct WorkOutListView: View {
 }
 
 #Preview {
-    WorkOutListView()
+    WorkoutListView()
         .modelContainer(PreviewContainer.shared.container)
 }

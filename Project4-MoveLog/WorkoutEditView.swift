@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 
-struct WorkOutEditView: View {
+struct WorkoutEditView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     let workOut: Workout
@@ -191,5 +191,5 @@ struct ValueBox: View {
 
 
 #Preview {
-    WorkOutEditView(workOut: Workout(name: "Running", duration: 10, caloriesBurned: 100, date: Date()))
+    WorkoutEditView(workOut: Workout(name: "Running", duration: 10, caloriesBurned: 100, date: Date(), type: .cardio))
 }

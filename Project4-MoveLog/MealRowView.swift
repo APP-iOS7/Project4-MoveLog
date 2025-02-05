@@ -23,9 +23,9 @@ struct MealRowView: View {
             Text("\(meal.calories) kcal")
                 .frame(width: 100, alignment: .leading)
         }
-        .foregroundStyle(Color("textColor"))
+        .foregroundStyle(Color("TextColor"))
         .frame(maxWidth: .infinity, minHeight: 50) // maxWidth 사용
-        .background(Color("subColor"))
+        .background(Color("SubColor"))
         .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
