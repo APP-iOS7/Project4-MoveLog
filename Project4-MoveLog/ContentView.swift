@@ -32,15 +32,47 @@ struct ContentView: View {
                 VStack{
                     DatePicker("Select Date", selection: $selectedDate, displayedComponents: [.date])
                         .datePickerStyle(.graphical)
+                        .background(Color.gray.opacity(0.1))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .tint(Color("CalendarColor"))
                     Spacer(minLength: 30)
-                    RoundedRectangle(cornerRadius: 10).fill(Color("subColor")).frame(width: .infinity, height: 150)
+                    Text("칼로리 소비량")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .foregroundStyle(Color("textColor"))
+                    VStack(alignment: .leading, spacing: 8) { // 간격 조정
+                        Text("식사 kcal")
+                        Text(" - 전체 운동 kcal")
+                        Divider() // 검은색 구분선
+                            .background(Color("textColor"))
+                        
+                        Text(" kcal")
+                            .font(.headline)
+                    }
+                    .padding()
+                    .background(Color("subColor"))
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .foregroundStyle(Color("textColor"))
+                    
                     Spacer(minLength: 50)
                     VStack {
-                        Text("운동 기록")
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .foregroundStyle(Color("textColor"))
+                        HStack {
+                            Text("운동 기록")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .foregroundStyle(Color("textColor"))
+                            NavigationLink(destination: WorkoutRecordsView()) {
+                                Text("START")
+                                    .font(.title2)
+                                    .frame(maxWidth: .infinity, minHeight: 40)
+                                    .foregroundStyle(Color("textColor"))
+                                    .background(Color("mainColor"))
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                
+                            }
+                        }
                         if workoutForSelectedDate.isEmpty {
                             Text("운동 기록이 없습니다!")
                         }else {
@@ -48,16 +80,27 @@ struct ContentView: View {
                                 WorkoutRowView(workout: workout)
                             }
                         }
+                        Spacer(minLength: 50)
                         
                         
                     }
                     Spacer(minLength: 50)
                     VStack {
-                        Text("식단 기록")
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .foregroundStyle(Color("textColor"))
+                        HStack {
+                            Text("식단 기록")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .foregroundStyle(Color("textColor"))
+                            NavigationLink(destination: WorkoutRecordsView()) {
+                                Text("식단 추가")
+                                    .font(.title2)
+                                    .frame(maxWidth: .infinity, minHeight: 40)
+                                    .foregroundStyle(Color("textColor"))
+                                    .background(Color("mainColor"))
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                            }
+                        }
                         
                         if mealForSelectedDate.isEmpty {
                             Text("식단 기록이 없습니다!")
@@ -70,16 +113,6 @@ struct ContentView: View {
                         }
                         
                     }
-                    Spacer(minLength: 50)
-                    NavigationLink(destination: WorkoutRecordsView()) {
-                        Text("START")
-                            .font(.largeTitle)
-                            .frame(maxWidth: .infinity, minHeight: 50)
-                            .foregroundStyle(Color("textColor"))
-                            .background(Color("mainColor"))
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-
-                    }
                 }
                 .navigationTitle("무브로그")
                 .toolbar {
@@ -89,6 +122,7 @@ struct ContentView: View {
                         }
                         label: {
                             Image(systemName: "bell")
+                                .foregroundStyle(Color.black.opacity(1))
                         }
                     }
                 }
@@ -96,22 +130,22 @@ struct ContentView: View {
             .padding()
         }
         .onAppear {
-//            print("📆 현재 선택된 날짜: \(selectedDate)")
-//
-//            Task {
-//                do {
-//                    let allMeals = try modelContext.fetch(FetchDescriptor<Meal>())
-//                    print("💾 저장된 Meal 개수: \(allMeals.count)")
-//                    
-//                    for meal in allMeals {
-//                        print("🍽 Meal - 이름: \(meal.name), 날짜: \(meal.date)")
-//                    }
-//                } catch {
-//                    print("❌ Meal 데이터 가져오기 실패: \(error)")
-//                }
-//            }
+            //            print("📆 현재 선택된 날짜: \(selectedDate)")
+            //
+            //            Task {
+            //                do {
+            //                    let allMeals = try modelContext.fetch(FetchDescriptor<Meal>())
+            //                    print("💾 저장된 Meal 개수: \(allMeals.count)")
+            //
+            //                    for meal in allMeals {
+            //                        print("🍽 Meal - 이름: \(meal.name), 날짜: \(meal.date)")
+            //                    }
+            //                } catch {
+            //                    print("❌ Meal 데이터 가져오기 실패: \(error)")
+            //                }
+            //            }
         }
-
+        
     }
     
 }

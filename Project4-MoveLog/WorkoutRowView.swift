@@ -17,11 +17,19 @@ struct WorkoutRowView: View {
     
     var body: some View {
         HStack {
+            Spacer()
             Text(workout.name)
-                .padding()
+                .frame(width: 100, alignment: .leading)
+                .lineLimit(1)
+            Spacer()
             Text("\(workout.duration)")
+            
+                .frame(width: 100, alignment: .leading)
+                .lineLimit(1)
             Text("\(workout.caloriesBurned) kcal")
-                .padding()
+            
+                .frame(width: 100, alignment: .leading)
+                .lineLimit(1)
         }
         .foregroundStyle(Color("textColor"))
         .frame(maxWidth: .infinity, minHeight: 50) // maxWidth 사용
@@ -37,7 +45,8 @@ struct WorkoutRowView: View {
             name: "달리기",
             duration: 1800, // 30분
             caloriesBurned: 250,
-            date: Date()
+            date: Date(),
+            type: .cardio
         )
     )
 }
