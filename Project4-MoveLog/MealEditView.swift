@@ -16,10 +16,10 @@ struct MealEditView: View {
     @State private var calories: Int = 0
 //    @State private var mealid: String = ""
     
-    /// 시간 남으면 영양소 추가
-    @State private var protein: Int = 0
-    @State private var carbohydrates: Int = 0
-    @State private var fat: Int = 0
+
+//    @State private var protein: Int = 0
+//    @State private var carbohydrates: Int = 0
+//    @State private var fat: Int = 0
     
     
     init(meals: Meal) {
@@ -45,21 +45,68 @@ struct MealEditView: View {
                     .cornerRadius(8)
                 
             
-                    
+//                HStack {
+//                    Text("탄수화물")
+//                        .font(.caption)
+//                        .foregroundColor(.gray)
+//                    Spacer()
+//                    TextField("탄수화물", value: $carbohydrates, formatter: NumberFormatter())
+//                        
+//                        .frame(width: 100)
+//                            .fontWeight(.bold)
+//                            .multilineTextAlignment(.trailing)
+//                            .padding(.leading, 8)
+//                            .padding(.vertical, 4)
+//                            .background(Color(red: 0.843, green: 0.937, blue: 0.839).opacity(0.4))
+//                            .cornerRadius(8)
+//                    
+//                    ValueBox(unit: "g")
+//                }
+//                HStack {
+//                    Text("단백질")
+//                        .font(.caption)
+//                        .foregroundColor(.gray)
+//                    Spacer()
+//                    TextField("단백질", value: $protein, formatter: NumberFormatter())
+//                        .frame(width: 100)
+//                            .fontWeight(.bold)
+//                            .multilineTextAlignment(.trailing)
+//                            .padding(.leading, 8)
+//                            .padding(.vertical, 4)
+//                            .background(Color(red: 0.843, green: 0.937, blue: 0.839).opacity(0.4))
+//                            .cornerRadius(8)
+//                    ValueBox(unit: "g")
+//                }
+//                HStack {
+//                    Text("지방")
+//                        .font(.caption)
+//                        .foregroundColor(.gray)
+//                    Spacer()
+//                    TextField("지방", value: $fat, formatter: NumberFormatter())
+//                        .frame(width: 100)
+//                            .fontWeight(.bold)
+//                            .multilineTextAlignment(.trailing)
+//                            .padding(.leading, 8)
+//                            .padding(.vertical, 4)
+//                            .background(Color(red: 0.843, green: 0.937, blue: 0.839).opacity(0.4))
+//                            .cornerRadius(8)
+//                    ValueBox(unit: "g")
+//                }
                     
             
                 HStack {
-//                    Text(mealid)
                     Text("칼로리")
                         .font(.caption)
                         .foregroundColor(.gray)
+                    Spacer()
                     TextField("칼로리", value: $calories, formatter: NumberFormatter())
-                        .fontWeight(.bold)
-                        .multilineTextAlignment(.trailing)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
-                        .background(Color(red: 0.843, green: 0.937, blue: 0.839).opacity(0.4)) // #d7efd6
-                        .cornerRadius(8)
+                        .frame(width: 100)
+                            .fontWeight(.bold)
+                            .multilineTextAlignment(.trailing)
+                            .padding(.leading, 8)
+                            .padding(.vertical, 4)
+                            .background(Color(red: 0.843, green: 0.937, blue: 0.839).opacity(0.4))
+                            .cornerRadius(8)
                     ValueBox(unit: "kcal")
                 }
                 

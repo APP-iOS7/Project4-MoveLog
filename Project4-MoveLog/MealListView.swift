@@ -14,7 +14,7 @@ struct MealListView: View {
     
     @Query private var meals: [Meal]  // 전체 운동 목록을 불러옴
     @State private var searchText = "" // 검색어 상태
-    @State private var selectedMeal: Meal? //  선택된 운동 저장
+    @State private var selectedMeal: Meal? //  선택된 음식 저장
     
     //    @State private var protein: Int = 0
     //    @State private var carbohydrates: Int = 0
