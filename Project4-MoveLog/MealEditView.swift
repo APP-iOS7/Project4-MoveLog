@@ -17,9 +17,9 @@ struct MealEditView: View {
 //    @State private var mealid: String = ""
     
     /// 시간 남으면 영양소 추가
-//    @State private var protein: Int = 0
-//    @State private var carbohydrates: Int = 0
-//    @State private var fat: Int = 0
+    @State private var protein: Int = 0
+    @State private var carbohydrates: Int = 0
+    @State private var fat: Int = 0
     
     
     init(meals: Meal) {
@@ -34,14 +34,14 @@ struct MealEditView: View {
         
         NavigationStack {
             Spacer()
-            List {
+            Form {
                 TextField("음식 이름", text: $name)
                     .padding(.vertical , 5)
                     .font(.title2)
                     .fontWeight(.bold)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
-                    .background(Color.gray.opacity(0.4))
+                    .background(Color(red: 0.843, green: 0.937, blue: 0.839).opacity(0.4)) // #d7efd6
                     .cornerRadius(8)
                 
             
@@ -58,7 +58,7 @@ struct MealEditView: View {
                         .multilineTextAlignment(.trailing)
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)
-                        .background(Color.gray.opacity(0.4))
+                        .background(Color(red: 0.843, green: 0.937, blue: 0.839).opacity(0.4)) // #d7efd6
                         .cornerRadius(8)
                     ValueBox(unit: "kcal")
                 }
@@ -66,8 +66,8 @@ struct MealEditView: View {
            
                 
             }
-      
-            .background(Color.gray.opacity(0.3))
+            .scrollContentBackground(.hidden) 
+            .background(Color(red: 0.678, green: 0.973, blue: 0.424).opacity(0.3)) // #adf86c
             .cornerRadius(12)
             .padding(.horizontal, 20)
             

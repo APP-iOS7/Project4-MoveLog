@@ -37,37 +37,47 @@ struct MealListView: View {
                     TextField("검색 창", text: $searchText)
                 }
                 .padding()
-                .background(Color.gray.opacity(0.3))
+                .background(Color(red: 0.843, green: 0.937, blue: 0.839)) // #d7efd6
                 .cornerRadius(10)
                 .padding(.horizontal)
                 // 운동 리스트
                 List {
                     ForEach(filteredMeals) { meal in
                         HStack {
-//                            Text(meal.id.uuidString)
-                            Text(meal.name)
-                                .font(.title3)
-                            
-                            Text("\(meal.calories) kcal")
-                                .font(.caption)
-                                .foregroundColor(.gray)
-                            
-                            //                            Text("\(meal.protein) kcal")
-                            //                                .font(.caption)
-                            //                                .foregroundColor(.gray)
+                            HStack {
+                                //                            Text(meal.id.uuidString)
+                                Text(meal.name)
+                                    .font(.title3)
+                                
+                                Text("\(meal.calories) kcal")
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                                
+                                //                            Text("\(meal.protein) kcal")
+                                //                                .font(.caption)
+                                //                                .foregroundColor(.gray)
+                            }
+                            .fontWeight(.bold)
+                            .multilineTextAlignment(.trailing)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 6)
+                            .background(Color(red: 0.843, green: 0.937, blue: 0.839)) // #d7efd6
+                            .cornerRadius(8)
                             Spacer()
                         }
-                        .padding(.vertical, 5)
+                       
                         .contentShape(Rectangle())
                         .onTapGesture {
                             selectedMeal = meal
                         }
-                        
+                        .listRowBackground(Color.clear) // 리스트 row의 배경을 투명하게
+                        .listRowInsets(EdgeInsets()) // row의 기본 여백 제거
                     }
                     
                     .onDelete(perform: deleteItems)
                 }
-                .background(Color.gray.opacity(0.3))
+                .listStyle(.plain) 
+                .background(Color(red: 0.678, green: 0.973, blue: 0.424).opacity(0.3))
                 .cornerRadius(20)
                 .padding()
             }
