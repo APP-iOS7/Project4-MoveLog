@@ -11,12 +11,14 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var selectedDate: Date = Date()
-    @Query private var workout: [Workout]
+    @Query private var myWorkout: [MyWorkout]
     @Query private var meal: [Meal]
+    @Query private var user: [UserProfile]
     
-    private var workoutForSelectedDate: [Workout] {
-        workout.filter { item in
-            Calendar.current.isDate(item.date, inSameDayAs: selectedDate)
+    private var workoutForSelectedDate: [MyWorkout] {
+        myWorkout.filter { item in
+            let selectedDay = selectedDate.startOfDay()
+            return Calendar.current.isDate(item.date, inSameDayAs: selectedDay)
         }
     }
     
@@ -34,7 +36,8 @@ struct ContentView: View {
                         .datePickerStyle(.graphical)
                         .background(Color.gray.opacity(0.1))
                         .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .tint(Color("CalendarColor"))
+                        .tint(Color("DarkColor"))
+                        .frame(height: 400)
                     Spacer(minLength: 30)
                     Text("칼로리 소비량")
                         .font(.title2)
@@ -47,7 +50,7 @@ struct ContentView: View {
                         Divider() // 검은색 구분선
                             .background(Color("TextColor"))
                         
-                        Text(" kcal")
+                        Text("\(workoutForSelectedDate) kcal")
                             .font(.headline)
                     }
                     .padding()
@@ -70,14 +73,13 @@ struct ContentView: View {
                                     .foregroundStyle(Color("TextColor"))
                                     .background(Color("MainColor"))
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
-                                
                             }
                         }
                         if workoutForSelectedDate.isEmpty {
                             Text("운동 기록이 없습니다!")
                         }else {
-                            ForEach(workoutForSelectedDate) { workout in
-                                WorkoutRowView(workout: workout)
+                            ForEach(workoutForSelectedDate) { myWorkout in
+                                WorkoutRowView(myWorkout: myWorkout)
                             }
                         }
                         Spacer(minLength: 50)
@@ -92,7 +94,7 @@ struct ContentView: View {
                                 .fontWeight(.bold)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .foregroundStyle(Color("TextColor"))
-                            NavigationLink(destination: WorkoutRecordsView()) {
+                            NavigationLink(destination: UserProfileView()) {
                                 Text("식단 추가")
                                     .font(.title2)
                                     .frame(maxWidth: .infinity, minHeight: 40)
@@ -118,6 +120,15 @@ struct ContentView: View {
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         NavigationLink {
+                            UserProfileView()
+                        }
+                        label: {
+                            Image(systemName: "person.circle")
+                                .foregroundStyle(Color.black.opacity(1))
+                        }
+                    }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        NavigationLink {
                             
                         }
                         label: {
@@ -129,25 +140,13 @@ struct ContentView: View {
             }
             .padding()
         }
-        .onAppear {
-            //            print("📆 현재 선택된 날짜: \(selectedDate)")
-            //
-            //            Task {
-            //                do {
-            //                    let allMeals = try modelContext.fetch(FetchDescriptor<Meal>())
-            //                    print("💾 저장된 Meal 개수: \(allMeals.count)")
-            //
-            //                    for meal in allMeals {
-            //                        print("🍽 Meal - 이름: \(meal.name), 날짜: \(meal.date)")
-            //                    }
-            //                } catch {
-            //                    print("❌ Meal 데이터 가져오기 실패: \(error)")
-            //                }
-            //            }
-        }
-        
     }
-    
+}
+
+extension Date {
+    func startOfDay() -> Date {
+        return Calendar.current.startOfDay(for: self)
+    }
 }
 
 #Preview {

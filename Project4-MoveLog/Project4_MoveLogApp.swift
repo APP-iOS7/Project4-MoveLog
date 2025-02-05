@@ -13,7 +13,9 @@ struct Project4_MoveLogApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Workout.self,
-            Meal.self
+            UserProfile.self,
+            Meal.self,
+            MyWorkout.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 

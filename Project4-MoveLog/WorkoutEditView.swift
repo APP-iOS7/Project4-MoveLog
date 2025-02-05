@@ -12,32 +12,18 @@ import SwiftData
 struct WorkoutEditView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-    let workOut: Workout
+    let workout: Workout
     
+    @State private var selectedType: WorkoutType
     @State private var name: String = ""
-    @State private var duration: Int = 0
-    @State private var caloriesBurned: Int = 0
-    
-    @State private var hoursString = "00"
-    @State private var minutesString = "00"
-    @State private var secondsString = "00"
     
     
     
     
-    init(workOut: Workout) {
-        self.workOut = workOut
-        _name = State(initialValue: workOut.name)
-        _duration = State(initialValue: workOut.duration)
-        _caloriesBurned = State(initialValue: workOut.caloriesBurned)
-        
-        let hours = workOut.duration / 3600
-        let minutes = (workOut.duration % 3600) / 60
-        let seconds = workOut.duration % 60
-        
-        _hoursString = State(initialValue: String(format: "%02d", hours))
-        _minutesString = State(initialValue: String(format: "%02d", minutes))
-        _secondsString = State(initialValue: String(format: "%02d", seconds))
+    init(workout: Workout) {
+        self.workout = workout
+        _name = State(initialValue: workout.name)
+        _selectedType = State(initialValue: workout.type)
     }
     
     
@@ -54,128 +40,38 @@ struct WorkoutEditView: View {
                     .padding(.vertical, 4)
                     .background(Color.gray.opacity(0.4))
                     .cornerRadius(8)
-                
-                HStack {
-                    
-                    
-                    TextField("HH", text: Binding(
-                        get: { hoursString },
-                        set: { newValue in
-                            let filteredValue = newValue.filter { $0.isNumber }
-                            let limitedValue = String(filteredValue.prefix(2))
-                            
-                            if let intValue = Int(limitedValue), intValue <= 24 {
-                                hoursString = limitedValue
-                            } else {
-                                hoursString = "23"
-                            }
-                            updateDuration()
-                        }
-                    ))
-                    .fontWeight(.bold)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(Color.gray.opacity(0.4))
-                    .cornerRadius(8)
-                    ValueBox(unit: ":")
-                    
-                    TextField("mm", text: Binding(
-                        get: { minutesString },
-                        set: { newValue in
-                            let filteredValue = newValue.filter { $0.isNumber }
-                            let limitedValue = String(filteredValue.prefix(2))
-                            
-                            if let intValue = Int(limitedValue), intValue <= 60 {
-                                minutesString = limitedValue
-                            } else {
-                                minutesString = "59"
-                            }
-                            updateDuration()
-                        }
-                    ))
-                    .fontWeight(.bold)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(Color.gray.opacity(0.4))
-                    .cornerRadius(8)
-                    
-                    ValueBox(unit: ":")
-                    TextField("ss", text: Binding(
-                        get: { secondsString },
-                        set: { newValue in
-                            let filteredValue = newValue.filter { $0.isNumber }
-                            let limitedValue = String(filteredValue.prefix(2))
-                            
-                            if let intValue = Int(limitedValue), intValue <= 60 {
-                                secondsString = limitedValue
-                            } else {
-                                secondsString = "59"
-                            }
-                            updateDuration()
-                        }
-                    ))
-                    .fontWeight(.bold)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(Color.gray.opacity(0.4))
-                    .cornerRadius(8)
+                Picker("운동 유형", selection: $selectedType) {
+                    ForEach(WorkoutType.allCases, id: \.self) { type in
+                        Text(type.rawValue).tag(type)
+                    }
                 }
-                
-                HStack {
-                    Text("소모 칼로리")
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                    TextField("소모 칼로리", value: $caloriesBurned, formatter: NumberFormatter())
-                        .fontWeight(.bold)
-                        .multilineTextAlignment(.trailing)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
-                        .background(Color.gray.opacity(0.4))
-                        .cornerRadius(8)
-                    ValueBox(unit: "kcal")
-                }
-                
-           
-                
+                .pickerStyle(.menu)
+                .tint(Color("TextColor"))
             }
-      
+            
             .background(Color.gray.opacity(0.3))
             .cornerRadius(12)
             .padding(.horizontal, 20)
             
         }
-       
-            Spacer()
-                .navigationTitle("운동 작성")
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button("저장") {
-                            workOut.name = name
-                            workOut.duration = duration
-                            workOut.caloriesBurned = caloriesBurned
-                            
-                            modelContext.insert(workOut)
-                            try? modelContext.save()
-                            dismiss()
-                        }
-                   
+        
+        Spacer()
+            .navigationTitle("운동 작성")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("저장") {
+                        workout.name = name
+                        workout.type = selectedType
+                        modelContext.insert(workout)
+                        try? modelContext.save()
+                        dismiss()
+                    }
+                    
                     
                 }
-        }
+            }
     }
-    private func updateDuration() {
-        let hours = Int(hoursString) ?? 0
-        let minutes = Int(minutesString) ?? 0
-        let seconds = Int(secondsString) ?? 0
-        
-        duration = (hours * 3600) + (minutes * 60) + seconds
-    }
-    
 }
-
 
 struct ValueBox: View {
     var unit: String
@@ -191,5 +87,5 @@ struct ValueBox: View {
 
 
 #Preview {
-    WorkoutEditView(workOut: Workout(name: "Running", duration: 10, caloriesBurned: 100, date: Date(), type: .cardio))
+    WorkoutEditView(workout: Workout(name: "Running", type: .cardio))
 }

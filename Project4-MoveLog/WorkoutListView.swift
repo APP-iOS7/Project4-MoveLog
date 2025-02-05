@@ -33,16 +33,18 @@ struct WorkoutListView: View {
                     TextField("검색 창", text: $searchText)
                 }
                 .padding()
-                .background(Color.gray.opacity(0.3))
+                .background(Color.gray.opacity(0.1))
                 .cornerRadius(10)
-                .padding(.horizontal)
+                .padding()
                 // 운동 리스트
                 List {
                     ForEach(filteredWorkouts) { workout in
                         HStack {
+                            Text("\(workout.type.rawValue)")
+                            Spacer()
                             Text(workout.name)
                                 .font(.title3)
-                            Spacer()
+                                .frame(width: 220, alignment: .leading)
                         }
                         .padding(.vertical, 5)
 //                        .swipeActions(edge: .leading, allowsFullSwipe: false) {
@@ -60,15 +62,14 @@ struct WorkoutListView: View {
                     
                     .onDelete(perform: deleteItems)
                 }
-                .background(Color.gray.opacity(0.3))
-                .cornerRadius(20)
-                .padding()
+                .listStyle(.plain)
+                .cornerRadius(10)
+                .padding(.horizontal)
             }
-            .padding(.horizontal, 20)
             .navigationTitle("운동 목록")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: WorkoutEditView(workOut: Workout(name: "새 운동", duration: 0, caloriesBurned: 0, date: Date(), type: .cardio))) {
+                    NavigationLink(destination: WorkoutEditView(workout: Workout(name: "새 운동",type: .cardio))) {
                         Text("추가")
                     }
                 }
@@ -79,7 +80,7 @@ struct WorkoutListView: View {
                 set: { if !$0 { selectedWorkout = nil } }
             )) {
                 if let workout = selectedWorkout {
-                    WorkoutEditView(workOut: workout)
+                    WorkoutEditView(workout: workout)
                 }
             }
         }

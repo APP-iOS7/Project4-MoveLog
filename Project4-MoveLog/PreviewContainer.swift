@@ -10,12 +10,13 @@ import SwiftData
 @MainActor
 class PreviewContainer {
     static let shared: PreviewContainer = PreviewContainer()
-
+    
     let container: ModelContainer
     
     init() {
         let schema = Schema([
             Workout.self,
+            MyWorkout.self,
             Meal.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
@@ -28,31 +29,35 @@ class PreviewContainer {
         }
     }
     func insertPreviewData() {
-        let today = Date()
-
-        let workoutList: [(String, Int, Int, Date, WorkoutType)] = [
-            ("Running", 10, 100, today, WorkoutType.cardio),
-            ("Cycling", 20, 200, today, WorkoutType.cardio),
-            ("Swimming", 30, 300, today - 1000, WorkoutType.cardio),
-            ("Running11111", 10, 100, today, WorkoutType.upperBody),
-            ("Running22222", 10, 100, today, WorkoutType.others),
-            ("운동이름을 길다고 할만한게", 10, 100, today, WorkoutType.upperBody),
+        let today = Date().startOfDay()
+        
+        let workoutList: [(String, WorkoutType)] = [
+            ("Running", WorkoutType.cardio),
+            ("Cycling", WorkoutType.cardio),
+            ("Swimming", WorkoutType.cardio),
+            ("Running11111", WorkoutType.upperBody),
+            ("Running22222", WorkoutType.others),
+            ("운동이름을 길다고 할만한게", WorkoutType.upperBody),
         ]
         
         let mealList: [(String, Int, Date)] = [("삼겹살", 1000, today), ("회", 1000, today),("과자", 1000, today),]
-
+        
         let context = container.mainContext
-
-        for (name, duration, caloriesBurned, date, workoutType) in workoutList {
-            let workout = Workout(name: name, duration: duration, caloriesBurned: caloriesBurned, date: date, type: workoutType)
+        var savedWorkouts: [Workout] = []
+        for (name, workoutType) in workoutList {
+            let workout = Workout(name: name, type: workoutType)
             context.insert(workout)
+            savedWorkouts.append(workout) // 나중에 MyWorkout에 연결할 수 있도록 저장
         }
         
         for (name, calories, date) in mealList {
             let meal = Meal(name: name, calories: calories, date: date)
             context.insert(meal)
         }
-
+        for workout in savedWorkouts {
+            let myWorkout = MyWorkout(workout: workout, date: today, duration: 1000, burnedCalories: 100.0)
+            context.insert(myWorkout)
+        }
         do {
             try context.save()
             print("더미 데이터 저장 완료 (Workout 개수: \(try context.fetch(FetchDescriptor<Workout>()).count))")
@@ -60,5 +65,5 @@ class PreviewContainer {
             print("Failed to save context: \(error)")
         }
     }
-
+    
 }

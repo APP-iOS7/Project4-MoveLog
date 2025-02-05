@@ -9,44 +9,52 @@ import Foundation
 import SwiftUI
 
 struct WorkoutRowView: View {
-    let workout: Workout
-    
-    init(workout: Workout) {
-        self.workout = workout
+    let myWorkout: MyWorkout
+
+    init(myWorkout: MyWorkout) {
+        self.myWorkout = myWorkout
     }
     
     var body: some View {
-        HStack {
-            Spacer()
-            Text(workout.name)
+        HStack(spacing: 20) {
+            Text(myWorkout.workout.name)
                 .frame(width: 100, alignment: .leading)
                 .lineLimit(1)
-            Spacer()
-            Text("\(workout.duration)")
-            
+            Text("\(myWorkout.duration.formattedDuration())")
                 .frame(width: 100, alignment: .leading)
                 .lineLimit(1)
-            Text("\(workout.caloriesBurned) kcal")
-            
+            Text("\(myWorkout.burnedCalories.formattedCalories())")
                 .frame(width: 100, alignment: .leading)
                 .lineLimit(1)
         }
         .foregroundStyle(Color("TextColor"))
         .frame(maxWidth: .infinity, minHeight: 50) // maxWidth 사용
-            .background(Color("SubColor"))
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-
-
+        .background(Color("SubColor"))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
+
+extension TimeInterval {
+    func formattedDuration() -> String {
+        let hours = Int(self) / 3600
+        let minutes = (Int(self) % 3600) / 60
+        let seconds = Int(self) % 60
+        
+        if hours > 0 {
+            return String(format: "%02d시간 %02d분 %02d초", hours, minutes, seconds)
+        } else if minutes > 0 {
+            return String(format: "%02d분 %02d초", minutes, seconds)
+        } else {
+            return String(format: "00분 %02d초", seconds)
+        }
+    }
+}
+extension Double {
+    func formattedCalories() -> String {
+        return String(format: "%.1f kcal", self)
+    }
+}
+
 #Preview {
-    WorkoutRowView(
-        workout: Workout(
-            name: "달리기",
-            duration: 1800, // 30분
-            caloriesBurned: 250,
-            date: Date(),
-            type: .cardio
-        )
-    )
+    WorkoutRowView(myWorkout: MyWorkout(workout: Workout(name: "벤치", type: .lowerBody), date: Date(), duration: 1000, burnedCalories: 1000.0))
 }
