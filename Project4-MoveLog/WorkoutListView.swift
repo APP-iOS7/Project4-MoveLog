@@ -69,7 +69,7 @@ struct WorkoutListView: View {
             .navigationTitle("운동 목록")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: WorkoutEditView(workout: Workout(name: "새 운동",type: .cardio))) {
+                    NavigationLink(destination: WorkoutEditView(workout: Workout(name: "새 운동", duration: 0, caloriesBurned: 0, type: .cardio))) {
                         Text("추가")
                     }
                 }
