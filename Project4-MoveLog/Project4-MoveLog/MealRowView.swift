@@ -15,13 +15,18 @@ struct MealRowView: View {
     }
     var body: some View {
         HStack {
+        Spacer()
             Text(meal.name)
-            Text("\(meal.calories)")
+                .frame(width: 200, alignment: .leading)
+                .lineLimit(1)
+            Spacer()
+            Text("\(meal.calories) kcal")
+                .frame(width: 100, alignment: .leading)
         }
         .foregroundStyle(Color("textColor"))
         .frame(maxWidth: .infinity, minHeight: 50) // maxWidth 사용
-            .background(Color("subColor"))
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+        .background(Color("subColor"))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
 

@@ -30,21 +30,21 @@ class PreviewContainer {
     func insertPreviewData() {
         let today = Date()
 
-        let workoutList: [(String, Int, Int, Date)] = [
-            ("Running", 10, 100, today),
-            ("Cycling", 20, 200, today),
-            ("Swimming", 30, 300, today - 1000),
-            ("Running11111", 10, 100, today),
-            ("Running22222", 10, 100, today),
-            ("Running33", 10, 100, today),
+        let workoutList: [(String, Int, Int, Date, WorkoutType)] = [
+            ("Running", 10, 100, today, WorkoutType.cardio),
+            ("Cycling", 20, 200, today, WorkoutType.cardio),
+            ("Swimming", 30, 300, today - 1000, WorkoutType.cardio),
+            ("Running11111", 10, 100, today, WorkoutType.upperBody),
+            ("Running22222", 10, 100, today, WorkoutType.others),
+            ("운동이름을 길다고 할만한게", 10, 100, today, WorkoutType.upperBody),
         ]
         
         let mealList: [(String, Int, Date)] = [("삼겹살", 1000, today), ("회", 1000, today),("과자", 1000, today),]
 
         let context = container.mainContext
 
-        for (name, duration, caloriesBurned, date) in workoutList {
-            let workout = Workout(name: name, duration: duration, caloriesBurned: caloriesBurned, date: date)
+        for (name, duration, caloriesBurned, date, workoutType) in workoutList {
+            let workout = Workout(name: name, duration: duration, caloriesBurned: caloriesBurned, date: date, type: workoutType)
             context.insert(workout)
         }
         
