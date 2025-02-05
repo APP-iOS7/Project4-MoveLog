@@ -92,7 +92,7 @@ struct ContentView: View {
                                 .fontWeight(.bold)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .foregroundStyle(Color("textColor"))
-                            NavigationLink(destination: WorkoutRecordsView()) {
+                            NavigationLink(destination: MealRecordsView()) {
                                 Text("식단 추가")
                                     .font(.title2)
                                     .frame(maxWidth: .infinity, minHeight: 40)

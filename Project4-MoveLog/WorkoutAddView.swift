@@ -12,7 +12,7 @@ import SwiftData
 struct WorkoutAddView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-
+    
     @State private var name: String = ""
     @State private var caloriesBurned: Int = 0
     @State private var selectedType: WorkoutType = .cardio
@@ -70,7 +70,6 @@ struct WorkoutAddView: View {
                     Button("저장") {
                         let workout = Workout(name: name, duration: 0, caloriesBurned: caloriesBurned, date: Date(), type: selectedType)
                         modelContext.insert(workout)
-//                        try? modelContext.save()
                         dismiss()
                         
                     }
@@ -89,7 +88,7 @@ struct WorkoutAddView: View {
             }
         }
     }
-
+    
     
 }
 #Preview {

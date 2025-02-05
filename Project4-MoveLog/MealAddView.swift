@@ -1,5 +1,5 @@
 //
-//  MealEditView.swift
+//  MealAddView.swift
 //  Project4-MoveLog
 //
 //  Created by SG on 2/5/25.
@@ -8,19 +8,12 @@
 import SwiftUI
 import SwiftData
 
-struct MealEditView: View {
+struct MealAddView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-    let meals: Meal
+    
     @State private var name: String = ""
     @State private var calories: Int = 0
-    
-    init(meals: Meal) {
-        self.meals = meals
-        _name = State(initialValue: meals.name)
-        _calories = State(initialValue: meals.calories)
-    }
-    
     
     var body: some View {
         NavigationStack {
@@ -54,6 +47,7 @@ struct MealEditView: View {
             .cornerRadius(12)
             .padding(.horizontal, 20)
             
+            
         }
         
         Spacer()
@@ -61,18 +55,14 @@ struct MealEditView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("저장") {
-                        meals.name = name
-                        meals.calories = calories
-                        
+                        let meals = Meal(name: name, calories: calories, date: Date())
                         modelContext.insert(meals)
-                        try? modelContext.save()
                         dismiss()
                     }
                 }
             }
     }
 }
-
 
 private struct ValueBox: View {
     var unit: String
@@ -89,5 +79,7 @@ private struct ValueBox: View {
 
 
 #Preview {
-    MealEditView(meals: Meal(name: "밥", calories: 100, date: Date()))
+    MealAddView()
+        .modelContainer(PreviewContainer.shared.container)
 }
+

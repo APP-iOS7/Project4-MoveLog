@@ -20,7 +20,6 @@ struct WorkoutEditView: View {
     init(workout: Workout) {
         self.workout = workout
         _name = State(initialValue: workout.name)
-  
         _caloriesBurned = State(initialValue: workout.caloriesBurned)
         _selectedType = State(initialValue: workout.type)
     }
@@ -81,7 +80,6 @@ struct WorkoutEditView: View {
                             workout.caloriesBurned = caloriesBurned
                             
                             modelContext.insert(workout)
-//                            try? modelContext.save()
                             dismiss()
                          
                         }
