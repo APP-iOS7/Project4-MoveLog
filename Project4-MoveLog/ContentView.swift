@@ -49,9 +49,6 @@ struct ContentView: View {
                         Text(" - 전체 운동 kcal")
                         Divider() // 검은색 구분선
                             .background(Color("TextColor"))
-                        
-                        Text("\(workoutForSelectedDate) kcal")
-                            .font(.headline)
                     }
                     .padding()
                     .background(Color("SubColor"))
