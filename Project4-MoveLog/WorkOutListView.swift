@@ -28,12 +28,14 @@ struct WorkOutListView: View {
         NavigationStack {
             VStack {
                 // 검색창
-                TextField("검색 창", text: $searchText)
-                    .padding()
-                    .background(Color.gray.opacity(0.3))
-                    .cornerRadius(10)
-                    .padding(.horizontal)
-                
+                HStack {
+                    Image(systemName: "magnifyingglass")
+                    TextField("검색 창", text: $searchText)
+                }
+                .padding()
+                .background(Color.gray.opacity(0.3))
+                .cornerRadius(10)
+                .padding(.horizontal)
                 // 운동 리스트
                 List {
                     ForEach(filteredWorkouts) { workout in
@@ -49,7 +51,7 @@ struct WorkOutListView: View {
 //                            }
 //                            .tint(.blue)
 //                        }
-                        .contentShape(Rectangle()) 
+                        .contentShape(Rectangle())
                         .onTapGesture {
                             selectedWorkout = workout
                         }
