@@ -21,6 +21,7 @@ struct WorkOutEditView: View {
     @State private var hoursString = "00"
     @State private var minutesString = "00"
     @State private var secondsString = "00"
+//    @State private var isNew: Bool = false
     
     
     
@@ -38,6 +39,7 @@ struct WorkOutEditView: View {
         _hoursString = State(initialValue: String(format: "%02d", hours))
         _minutesString = State(initialValue: String(format: "%02d", minutes))
         _secondsString = State(initialValue: String(format: "%02d", seconds))
+//        _isNew = State(initialValue: isNew)
     }
     
     
@@ -177,7 +179,7 @@ struct WorkOutEditView: View {
 }
 
 
-struct ValueBox: View {
+private struct ValueBox: View {
     var unit: String
     
     var body: some View {
