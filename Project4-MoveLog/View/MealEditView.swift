@@ -11,6 +11,7 @@ import SwiftData
 struct MealEditView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @State var selectedDate: Date
     let meals: Meal
     @State private var name: String = ""
     @State private var calories: Int = 0
@@ -19,6 +20,7 @@ struct MealEditView: View {
         self.meals = meals
         _name = State(initialValue: meals.name)
         _calories = State(initialValue: meals.calories)
+        _selectedDate = State(initialValue: meals.date)
     }
     
     
@@ -63,7 +65,7 @@ struct MealEditView: View {
                     Button("저장") {
                         meals.name = name
                         meals.calories = calories
-                        
+                        meals.date = selectedDate
                         modelContext.insert(meals)
                         try? modelContext.save()
                         dismiss()

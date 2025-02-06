@@ -11,11 +11,18 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var selectedDate: Date = Date()
+    @State private var isFromNotification = false // 앱 실행 시 알람 클릭 여부 추적
+    @State private var notificationExercise: ExerciseModel?
+    @State private var showAlarmView = false
+
     @Query private var myWorkout: [MyWorkout]
     @Query private var meal: [Meal]
     @State private var userProfile: UserProfile?
     @State private var showUserInfo = false
-    
+
+    private var totalMealCalories: Int {
+        mealForSelectedDate.reduce(0) { $0 + $1.calories }
+    }
     
     private var totalBurnedCalories = 0
     var workoutForSelectedDate: [MyWorkout] {
@@ -85,7 +92,7 @@ struct ContentView: View {
                         HStack {
                             Text(" ") // 공백 문자 추가
                                 .frame(width: 20) // 이모지 크기만큼 너비 지정
-                            Text("식사: 2000 kcal")
+                            Text("식사: \(totalMealCalories) kcal")
                         }
                         .padding(.vertical, 8)
                         .padding(.horizontal, 8)
@@ -157,7 +164,7 @@ struct ContentView: View {
                                 .fontWeight(.bold)
                                 .foregroundStyle(Color("textColor"))
                             Spacer()
-                            NavigationLink(destination: MealRecordsView()) {
+                            NavigationLink(destination: MealRecordsView(selectedDate: selectedDate)) {
                                 Text("식단 추가")
                                     .font(.title2)
                                     .foregroundStyle(Color("textColor"))
@@ -199,18 +206,32 @@ struct ContentView: View {
                         }
                     }
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        NavigationLink {
-                            
-                        }
-                        label: {
+                        NavigationLink(destination: AlarmSettingsView()) {
                             Image(systemName: "bell")
-                                .foregroundStyle(Color.black.opacity(1))
                         }
                     }
                 }
                 .onAppear {
-                    loadUserProfile()
+                loadUserProfile()
+
+                Task {
+                    await NotificationManager.shared.requestAuthorization()
                 }
+                NotificationCenter.default.addObserver(forName: NSNotification.Name("OpenAlarmView"), object: nil, queue: .main) { notification in
+                    print("📢 OpenAlarmView 알림 수신!")
+                    if let userInfo = notification.userInfo {
+                        self.showAlarmView = true
+                        print("userInfo : \(userInfo)")
+                    }
+                    else {
+                        print("⚠️ userInfo에 데이터 없음")
+                    }
+                    self.isFromNotification = true
+                }
+            }
+            .sheet(isPresented: $showAlarmView) {
+                ExerciseAlarmView(exercise: ExerciseModel.randomExercise())
+            }
             }
             .padding()
         }
