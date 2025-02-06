@@ -11,11 +11,12 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var selectedDate: Date = Date()
-    @Query private var myWorkout: [MyWorkout]
-    @Query private var meal: [Meal]
-    @Query private var user: [UserProfile]
-    
-    private var workoutForSelectedDate: [MyWorkout] {
+    @State private var myWorkout: [MyWorkout] = []
+    @State private var meal: [Meal] = []
+    @State private var user: [UserProfile] = []
+    @State private var workout: [Workout] = []
+    private var totalBurnedCalories = 0
+    var workoutForSelectedDate: [MyWorkout] {
         myWorkout.filter { item in
             let selectedDay = selectedDate.startOfDay()
             return Calendar.current.isDate(item.date, inSameDayAs: selectedDay)
@@ -45,10 +46,21 @@ struct ContentView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .foregroundStyle(Color("TextColor"))
                     VStack(alignment: .leading, spacing: 8) { // 간격 조정
-                        Text("식사 kcal")
-                        Text(" - 전체 운동 kcal")
+                        HStack {
+                            Text(" ") // 공백 문자 추가
+                                .frame(width: 20) // 이모지 크기만큼 너비 지정
+                            Text("식사: 2000 kcal")
+                        }
+                        HStack {
+                            //수평 선
+                            let totalBurnedCalories = workoutForSelectedDate.reduce(0) { $0 + $1.burnedCalories }
+                            
+                            Text("➖ 운동 소모 칼로리: \(totalBurnedCalories, specifier: "%.1f") kcal")
+                        }
+                        
                         Divider() // 검은색 구분선
                             .background(Color("TextColor"))
+                        Text("결과 kcal")
                     }
                     .padding()
                     .background(Color("SubColor"))
@@ -72,17 +84,27 @@ struct ContentView: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                             }
                         }
-                        if workoutForSelectedDate.isEmpty {
-                            Text("운동 기록이 없습니다!")
-                        }else {
-                            ForEach(workoutForSelectedDate) { myWorkout in
-                                WorkoutRowView(myWorkout: myWorkout)
+                        VStack {
+                            if workoutForSelectedDate.isEmpty {
+                                HStack {
+                                    Spacer()
+                                    Text("운동 기록이 없습니다!")
+                                        .padding()
+                                    Spacer()
+                                }
+                                
+                            } else {
+                                ForEach(workoutForSelectedDate) { myWorkout in
+                                    WorkoutRowView(myWorkout: myWorkout)
+                                }
                             }
                         }
-                        Spacer(minLength: 50)
-                        
-                        
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.gray.opacity(0.1))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
+                    
                     Spacer(minLength: 50)
                     VStack {
                         HStack {
@@ -100,17 +122,20 @@ struct ContentView: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                             }
                         }
-                        
-                        if mealForSelectedDate.isEmpty {
-                            Text("식단 기록이 없습니다!")
-                        }else {
-                            
-                            
-                            ForEach(mealForSelectedDate) { meal in
-                                MealRowView(meal: meal)
+                        VStack {
+                            if mealForSelectedDate.isEmpty {
+                                Text("식단 기록이 없습니다!")
+                                    .padding()
+                            }else {
+                                ForEach(mealForSelectedDate) { meal in
+                                    MealRowView(meal: meal)
+                                }
                             }
                         }
-                        
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.gray.opacity(0.1))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
                 }
                 .navigationTitle("무브로그")
@@ -137,7 +162,30 @@ struct ContentView: View {
             }
             .padding()
         }
+        .onAppear() {
+            fetchData()
+
+        }
     }
+    
+    private func fetchData() {
+            Task {
+                do {
+                    myWorkout = try modelContext.fetch(FetchDescriptor<MyWorkout>())
+                    meal = try modelContext.fetch(FetchDescriptor<Meal>())
+                    user = try modelContext.fetch(FetchDescriptor<UserProfile>())
+                    workout = try modelContext.fetch(FetchDescriptor<Workout>())
+                    print("✅ 내 운동 데이터 불러옴: \(myWorkout.count)")
+                    print("✅ 식사 데이터 불러옴: \(meal.count)")
+                    print("✅ 사용자 데이터 불러옴: \(user.count)")
+                    print("✅ 운동 데이터 불러옴: \(workout.count)")
+
+                } catch {
+                    print("❌ 데이터 가져오기 실패: \(error)")
+                }
+            }
+        }
+    
 }
 
 extension Date {
