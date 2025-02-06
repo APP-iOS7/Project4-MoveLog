@@ -84,10 +84,7 @@ struct ContentView: View {
                 .navigationTitle("무브로그")
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        NavigationLink {
-                            
-                        }
-                        label: {
+                        NavigationLink(destination: AlarmSettingsView()) {
                             Image(systemName: "bell")
                         }
                     }
