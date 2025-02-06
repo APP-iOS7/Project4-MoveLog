@@ -208,6 +208,8 @@ struct ContentView: View {
                     ToolbarItem(placement: .topBarLeading) {
                         HStack {
                             Image("icon")
+                                .resizable()
+                                .frame(width: 40, height: 30)
                             Text("무브로그")
                                 .font(.title)
                                 .bold()
