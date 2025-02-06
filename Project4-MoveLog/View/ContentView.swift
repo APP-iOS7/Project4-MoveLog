@@ -11,10 +11,9 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var selectedDate: Date = Date()
-    @State private var myWorkout: [MyWorkout] = []
-    @State private var meal: [Meal] = []
-    @State private var user: [UserProfile] = []
-    @State private var workout: [Workout] = []
+    @Query private var myWorkout: [MyWorkout]
+    @Query private var meal: [Meal]
+    @Query private var user: [UserProfile]
     private var totalBurnedCalories = 0
     var workoutForSelectedDate: [MyWorkout] {
         myWorkout.filter { item in
@@ -162,29 +161,29 @@ struct ContentView: View {
             }
             .padding()
         }
-        .onAppear() {
-            fetchData()
-
-        }
+//        .onAppear() {
+//            fetchData()
+//
+//        }
     }
     
-    private func fetchData() {
-            Task {
-                do {
-                    myWorkout = try modelContext.fetch(FetchDescriptor<MyWorkout>())
-                    meal = try modelContext.fetch(FetchDescriptor<Meal>())
-                    user = try modelContext.fetch(FetchDescriptor<UserProfile>())
-                    workout = try modelContext.fetch(FetchDescriptor<Workout>())
-                    print("✅ 내 운동 데이터 불러옴: \(myWorkout.count)")
-                    print("✅ 식사 데이터 불러옴: \(meal.count)")
-                    print("✅ 사용자 데이터 불러옴: \(user.count)")
-                    print("✅ 운동 데이터 불러옴: \(workout.count)")
-
-                } catch {
-                    print("❌ 데이터 가져오기 실패: \(error)")
-                }
-            }
-        }
+//    private func fetchData() {
+//            Task {
+//                do {
+//                    myWorkout = try modelContext.fetch(FetchDescriptor<MyWorkout>())
+//                    meal = try modelContext.fetch(FetchDescriptor<Meal>())
+//                    user = try modelContext.fetch(FetchDescriptor<UserProfile>())
+//                    workout = try modelContext.fetch(FetchDescriptor<Workout>())
+//                    print("✅ 내 운동 데이터 불러옴: \(myWorkout.count)")
+//                    print("✅ 식사 데이터 불러옴: \(meal.count)")
+//                    print("✅ 사용자 데이터 불러옴: \(user.count)")
+//                    print("✅ 운동 데이터 불러옴: \(workout.count)")
+//
+//                } catch {
+//                    print("❌ 데이터 가져오기 실패: \(error)")
+//                }
+//            }
+//        }
     
 }
 

@@ -138,8 +138,6 @@ struct WorkoutRecordsView: View {
 
                     do {
                         try modelContext.save()
-                        print("MyWorkout 저장 완료 날짜: \(myWorkout.date)")
-
                     } catch {
                         print("저장 실패: \(error)")
                     }
