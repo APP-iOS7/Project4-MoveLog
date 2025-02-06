@@ -40,20 +40,20 @@ struct ContentView: View {
                         .font(.title2)
                         .fontWeight(.bold)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(Color("textColor"))
+                        .foregroundStyle(Color("TextColor"))
                     VStack(alignment: .leading, spacing: 8) { // 간격 조정
                         Text("식사 kcal")
                         Text(" - 전체 운동 kcal")
                         Divider() // 검은색 구분선
-                            .background(Color("textColor"))
+                            .background(Color("TextColor"))
                         
                         Text(" kcal")
                             .font(.headline)
                     }
                     .padding()
-                    .background(Color("subColor"))
+                    .background(Color("SubColor"))
                     .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .foregroundStyle(Color("textColor"))
+                    .foregroundStyle(Color("TextColor"))
                     
                     Spacer(minLength: 50)
                     VStack {
@@ -62,13 +62,13 @@ struct ContentView: View {
                                 .font(.title2)
                                 .fontWeight(.bold)
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                                .foregroundStyle(Color("textColor"))
+                                .foregroundStyle(Color("TextColor"))
                             NavigationLink(destination: WorkoutRecordsView()) {
                                 Text("START")
                                     .font(.title2)
                                     .frame(maxWidth: .infinity, minHeight: 40)
-                                    .foregroundStyle(Color("textColor"))
-                                    .background(Color("mainColor"))
+                                    .foregroundStyle(Color("TextColor"))
+                                    .background(Color("MainColor"))
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                                 
                             }
@@ -91,13 +91,13 @@ struct ContentView: View {
                                 .font(.title2)
                                 .fontWeight(.bold)
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                                .foregroundStyle(Color("textColor"))
+                                .foregroundStyle(Color("TextColor"))
                             NavigationLink(destination: MealRecordsView()) {
                                 Text("식단 추가")
                                     .font(.title2)
                                     .frame(maxWidth: .infinity, minHeight: 40)
-                                    .foregroundStyle(Color("textColor"))
-                                    .background(Color("mainColor"))
+                                    .foregroundStyle(Color("TextColor"))
+                                    .background(Color("MainColor"))
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                             }
                         }

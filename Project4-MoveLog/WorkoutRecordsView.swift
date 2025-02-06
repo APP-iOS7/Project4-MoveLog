@@ -25,7 +25,7 @@ struct WorkoutRecordsView: View {
                     .font(.title2)
                     .fontWeight(.bold)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .foregroundStyle(Color("textColor"))
+                    .foregroundStyle(Color("TextColor"))
                 StopwatchView(stoppedTime: $stoppedTime) // `@Binding` 전달
                 Spacer()
                 HStack {
@@ -33,12 +33,12 @@ struct WorkoutRecordsView: View {
                         .font(.title2)
                         .fontWeight(.bold)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(Color("textColor"))
+                        .foregroundStyle(Color("TextColor"))
                     NavigationLink(destination: WorkoutListView()) {
                         Text("운동추가")
                             .frame(maxWidth: 100, minHeight: 30)
-                            .foregroundStyle(Color("textColor"))
-                            .background(Color("mainColor"))
+                            .foregroundStyle(Color("TextColor"))
+                            .background(Color("MainColor"))
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                         
                     }
@@ -53,8 +53,8 @@ struct WorkoutRecordsView: View {
                     .pickerStyle(.menu)
                     .frame(width: 150, alignment: .leading)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .foregroundStyle(Color("textColor"))
-                    .tint(Color("textColor"))
+                    .foregroundStyle(Color("TextColor"))
+                    .tint(Color("TextColor"))
                     Picker("운동 선택", selection: $selectedWorkout) {
                         // 먼저 비어있는 항목을 추가
                         Text("선택").tag(nil as Workout?)
@@ -69,8 +69,8 @@ struct WorkoutRecordsView: View {
                     .pickerStyle(.menu)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .foregroundStyle(Color("textColor"))
-                    .tint(Color("textColor"))
+                    .foregroundStyle(Color("TextColor"))
+                    .tint(Color("TextColor"))
                     .onChange(of: selectedType) { oldValue, newValue in
                         selectedWorkout = nil
                     }
@@ -84,7 +84,7 @@ struct WorkoutRecordsView: View {
                     .font(.title2)
                     .fontWeight(.bold)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .foregroundStyle(Color("textColor"))
+                    .foregroundStyle(Color("TextColor"))
                 Text(formatTime(stoppedTime))
                     .font(.title2)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -96,7 +96,7 @@ struct WorkoutRecordsView: View {
                     .font(.title2)
                     .fontWeight(.bold)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .foregroundStyle(Color("textColor"))
+                    .foregroundStyle(Color("TextColor"))
                 
             }
             .padding()

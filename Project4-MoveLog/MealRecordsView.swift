@@ -21,12 +21,12 @@ struct MealRecordsView: View {
                         .font(.title2)
                         .fontWeight(.bold)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(Color("textColor"))
+                        .foregroundStyle(Color("TextColor"))
                     NavigationLink(destination: MealListView()) {
                         Text("식단추가")
                             .frame(maxWidth: 100, minHeight: 30)
-                            .foregroundStyle(Color("textColor"))
-                            .background(Color("mainColor"))
+                            .foregroundStyle(Color("TextColor"))
+                            .background(Color("MainColor"))
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                         
                     }
@@ -48,8 +48,8 @@ struct MealRecordsView: View {
                     .pickerStyle(.menu)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .foregroundStyle(Color("textColor"))
-                    .tint(Color("textColor"))
+                    .foregroundStyle(Color("TextColor"))
+                    .tint(Color("TextColor"))
 //                    .onChange(of: selectedType) { oldValue, newValue in
 //                        selectedWorkout = nil
 //                    }
@@ -62,8 +62,14 @@ struct MealRecordsView: View {
                     .font(.title2)
                     .fontWeight(.bold)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .foregroundStyle(Color("textColor"))
+                    .foregroundStyle(Color("TextColor"))
                 
+                
+                Text("\(selectedMeal?.calories ?? 0) kcal")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .foregroundStyle(Color("TextColor"))
                     Spacer()
                 
             }

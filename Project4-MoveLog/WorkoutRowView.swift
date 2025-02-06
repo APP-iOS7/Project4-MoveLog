@@ -31,9 +31,9 @@ struct WorkoutRowView: View {
                 .frame(width: 100, alignment: .leading)
                 .lineLimit(1)
         }
-        .foregroundStyle(Color("textColor"))
+        .foregroundStyle(Color("TextColor"))
         .frame(maxWidth: .infinity, minHeight: 50) // maxWidth 사용
-            .background(Color("subColor"))
+            .background(Color("SubColor"))
             .clipShape(RoundedRectangle(cornerRadius: 10))
 
 
