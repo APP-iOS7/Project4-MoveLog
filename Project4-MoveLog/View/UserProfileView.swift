@@ -82,10 +82,10 @@ struct UserProfileView: View {
                     self.weight = String(existingProfile.weight)
                     calculateBMR()
                 } else {
-                    print("⚠️ 저장된 프로필 없음")
+                    print("저장된 프로필 없음")
                 }
             } catch {
-                print("❌ 프로필 불러오기 실패: \(error)")
+                print("프로필 불러오기 실패: \(error)")
             }
         }
     }
