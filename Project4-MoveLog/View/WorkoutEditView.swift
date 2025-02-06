@@ -30,11 +30,10 @@ struct WorkoutEditView: View {
                 TextField("운동 이름", text: $name)
                     .padding(.vertical , 5)
                     .font(.title2)
-                    .fontWeight(.bold)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
-                    .background(Color.gray.opacity(0.4))
-                    .cornerRadius(8)
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(10)
                 Picker("운동 유형", selection: $selectedType) {
                     ForEach(WorkoutType.allCases, id: \.self) { type in
                         Text(type.rawValue).tag(type)

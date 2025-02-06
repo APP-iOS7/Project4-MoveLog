@@ -14,7 +14,7 @@ struct ValueBox: View {
         HStack {
             Text(unit)
                 .font(.caption)
-                .foregroundColor(.gray.opacity(0.1))
+                .foregroundColor(.black.opacity(0.7))
         }
     }
 }

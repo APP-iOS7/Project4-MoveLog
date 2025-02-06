@@ -22,11 +22,10 @@ struct WorkoutAddView: View {
                 TextField("운동 이름", text: $name)
                     .padding(.vertical , 5)
                     .font(.title2)
-                    .fontWeight(.bold)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
-                    .background(Color.gray.opacity(0.4))
-                    .cornerRadius(8)
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(10)
                 
                 HStack {
                     Picker("운동 유형", selection: $selectedType) {
@@ -37,24 +36,10 @@ struct WorkoutAddView: View {
                     .pickerStyle(.menu)
                     .frame(width: 150, alignment: .leading)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .foregroundStyle(Color.blue)
+                    .foregroundStyle(Color.black)
                     .tint(.primary)
                     
                 }
-//                
-//                HStack {
-//                    Text("소모 칼로리")
-//                        .font(.caption)
-//                        .foregroundColor(.gray)
-//                    TextField("소모 칼로리", value: $caloriesBurned, formatter: NumberFormatter())
-//                        .fontWeight(.bold)
-//                        .multilineTextAlignment(.trailing)
-//                        .padding(.horizontal, 8)
-//                        .padding(.vertical, 4)
-//                        .background(Color.gray.opacity(0.4))
-//                        .cornerRadius(8)
-//                    ValueBox(unit: "kcal")
-//                }
             }
             .background(Color.gray.opacity(0.3))
             .cornerRadius(12)

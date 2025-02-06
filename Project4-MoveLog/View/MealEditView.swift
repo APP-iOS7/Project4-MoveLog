@@ -26,44 +26,58 @@ struct MealEditView: View {
     
     var body: some View {
         NavigationStack {
-            Spacer()
-            Form {
+            VStack {
+                HStack {
+                    Text("식단 작성")
+                        .font(.title)
+                        .bold()
+                    Spacer()
+                }
+                .padding(.vertical, 30)
+                HStack {
+                    Text("식단")
+                        .font(.system(size: 20))
+                        .foregroundColor(.black)
+                    Spacer()
+                }
                 TextField("음식 이름", text: $name)
-                    .padding(.vertical , 5)
                     .font(.title2)
-                    .fontWeight(.bold)
+                    .frame(width: .infinity, height: 40)
                     .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(Color.gray.opacity(0.4))
-                    .cornerRadius(8)
+                    .padding(.vertical, 5)
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(10)
                 
                 HStack {
                     Text("칼로리")
-                        .font(.caption)
-                        .foregroundColor(.gray)
+                        .font(.system(size: 20))
+                        .foregroundColor(.black)
                     Spacer()
+                }
+                .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
+                HStack {
                     TextField("칼로리", value: $calories, formatter: NumberFormatter())
+                        .frame(width: .infinity, height: 40)
                         .fontWeight(.bold)
                         .multilineTextAlignment(.trailing)
-                        .padding(.horizontal, 8)
                         .padding(.vertical, 4)
-                        .background(Color.gray.opacity(0.4))
-                        .cornerRadius(8)
+                        .padding(.horizontal, 10)
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(10)
                     ValueBox(unit: "kcal")
                 }
                 Button("삭제 하기") {
                     modelContext.delete(meals)
                     dismiss()
                 }
-                .font(.title2)
+                .font(.system(size: 20))
                 .fontWeight(.bold)
                 .frame(maxWidth: .infinity, alignment: .trailing)
                 .foregroundStyle(Color.red)
+                .padding(.vertical, 30)
+                Spacer()
             }
-            .background(Color.gray.opacity(0.3))
-            .cornerRadius(12)
-            .padding(.horizontal, 20)
-            
+            .padding()
         }
         
         Spacer()

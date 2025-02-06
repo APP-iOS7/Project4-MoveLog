@@ -233,7 +233,6 @@ struct ContentView: View {
                         }
                     }
                 }
-                .tint(.black)
                 .onAppear {
                     loadUserProfile()
                     
