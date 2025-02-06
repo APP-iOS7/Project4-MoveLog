@@ -22,4 +22,3 @@ final class MyWorkout {
         self.burnedCalories = burnedCalories
     }
 }
-
