@@ -6,15 +6,8 @@ class AlarmManager {
     
     // 🔹 알람 설정 함수
     func setAlarm(hour: Int, minute: Int, period: String, days: Set<String>, sound: String) {
-        // 알림 권한 요청
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, error in
-            if granted {
-                print("✅ 알림 권한이 허용되었습니다.")
-                self.scheduleAlarm(hour: hour, minute: minute, period: period, days: days, sound: sound)
-            } else {
-                print("❌ 알림 권한이 거부되었습니다.")
-            }
-        }
+        self.scheduleAlarm(hour: hour, minute: minute, period: period, days: days, sound: sound)
+        
     }
     
     // 🔹 실제 알람을 예약하는 함수
@@ -35,7 +28,7 @@ class AlarmManager {
             content.title = "운동할 시간입니다!"
             content.body = "운동을 해보세요! 건강을 위해 움직여 볼까요?"
             content.sound = sound == "벨소리" ? .default : .none
-            
+            content.userInfo = ["exerciseName": sampleExercises[0].name]
             let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
             center.add(request) { error in
                 if let error = error {

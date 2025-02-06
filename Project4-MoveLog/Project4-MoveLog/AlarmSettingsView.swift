@@ -162,22 +162,3 @@ struct AlarmSettingsView: View {
         AlarmManager.shared.removeAllAlarms()
     }
 }
-
-// 🔹 알람 데이터 모델
-struct AlarmModel: Identifiable, Codable {
-    let id: UUID
-    let hour: Int
-    let minute: Int
-    let period: String
-    let days: [String]
-    let sound: String
-
-    init(id: UUID = UUID(), hour: Int, minute: Int, period: String, days: [String], sound: String) {
-        self.id = id
-        self.hour = hour
-        self.minute = minute
-        self.period = period
-        self.days = days
-        self.sound = sound
-    }
-}
