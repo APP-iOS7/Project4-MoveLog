@@ -51,6 +51,14 @@ struct MealEditView: View {
                         .cornerRadius(8)
                     ValueBox(unit: "kcal")
                 }
+                Button("삭제 하기") {
+                    modelContext.delete(meals)
+                    dismiss()
+                }
+                .font(.title2)
+                .fontWeight(.bold)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                .foregroundStyle(Color.red)
             }
             .background(Color.gray.opacity(0.3))
             .cornerRadius(12)
