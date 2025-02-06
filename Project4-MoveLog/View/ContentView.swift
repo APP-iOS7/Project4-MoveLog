@@ -14,17 +14,20 @@ struct ContentView: View {
     @State private var isFromNotification = false // 앱 실행 시 알람 클릭 여부 추적
     @State private var notificationExercise: ExerciseModel?
     @State private var showAlarmView = false
-
+    
     @Query private var myWorkout: [MyWorkout]
     @Query private var meal: [Meal]
     @State private var userProfile: UserProfile?
     @State private var showUserInfo = false
-
+    
     private var totalMealCalories: Int {
         mealForSelectedDate.reduce(0) { $0 + $1.calories }
     }
     
-    private var totalBurnedCalories = 0
+    private var totalBurnedCalories: Int {
+        Int(workoutForSelectedDate.reduce(0) { $0 + $1.burnedCalories })
+    }
+    
     var workoutForSelectedDate: [MyWorkout] {
         myWorkout.filter { item in
             let selectedDay = selectedDate.startOfDay()
@@ -109,7 +112,14 @@ struct ContentView: View {
                         HStack {
                             Text(" ") // 공백 문자 추가
                                 .frame(width: 20) // 이모지 크기만큼 너비 지정
-                            Text("결과 kcal")
+                            let totalCalories = totalMealCalories - totalBurnedCalories
+                                if totalCalories > 0 {
+                                    Text("결과 : \(totalCalories) kcal")
+                                        .foregroundStyle(Color.red)
+                                } else {
+                                    Text("결과 : \(totalCalories) kcal")
+                                        .foregroundStyle(Color.blue)
+                                }
                         }
                         .padding(EdgeInsets(top: 0, leading: 8, bottom: 16, trailing: 16))
                     }
@@ -208,30 +218,31 @@ struct ContentView: View {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         NavigationLink(destination: AlarmSettingsView()) {
                             Image(systemName: "bell")
+                                .foregroundStyle(Color.black.opacity(1))
                         }
                     }
                 }
                 .onAppear {
-                loadUserProfile()
-
-                Task {
-                    await NotificationManager.shared.requestAuthorization()
-                }
-                NotificationCenter.default.addObserver(forName: NSNotification.Name("OpenAlarmView"), object: nil, queue: .main) { notification in
-                    print("📢 OpenAlarmView 알림 수신!")
-                    if let userInfo = notification.userInfo {
-                        self.showAlarmView = true
-                        print("userInfo : \(userInfo)")
+                    loadUserProfile()
+                    
+                    Task {
+                        await NotificationManager.shared.requestAuthorization()
                     }
-                    else {
-                        print("⚠️ userInfo에 데이터 없음")
+                    NotificationCenter.default.addObserver(forName: NSNotification.Name("OpenAlarmView"), object: nil, queue: .main) { notification in
+                        print("📢 OpenAlarmView 알림 수신!")
+                        if let userInfo = notification.userInfo {
+                            self.showAlarmView = true
+                            print("userInfo : \(userInfo)")
+                        }
+                        else {
+                            print("⚠️ userInfo에 데이터 없음")
+                        }
+                        self.isFromNotification = true
                     }
-                    self.isFromNotification = true
                 }
-            }
-            .sheet(isPresented: $showAlarmView) {
-                ExerciseAlarmView(exercise: ExerciseModel.randomExercise())
-            }
+                .sheet(isPresented: $showAlarmView) {
+                    ExerciseAlarmView(exercise: ExerciseModel.randomExercise())
+                }
             }
             .padding()
         }
