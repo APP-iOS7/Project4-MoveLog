@@ -11,12 +11,14 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var selectedDate: Date = Date()
-    @Query private var workout: [Workout]
+    @Query private var myWorkout: [MyWorkout]
     @Query private var meal: [Meal]
-    
-    private var workoutForSelectedDate: [Workout] {
-        workout.filter { item in
-            Calendar.current.isDate(item.date, inSameDayAs: selectedDate)
+    @Query private var user: [UserProfile]
+    private var totalBurnedCalories = 0
+    var workoutForSelectedDate: [MyWorkout] {
+        myWorkout.filter { item in
+            let selectedDay = selectedDate.startOfDay()
+            return Calendar.current.isDate(item.date, inSameDayAs: selectedDay)
         }
     }
     
@@ -34,7 +36,8 @@ struct ContentView: View {
                         .datePickerStyle(.graphical)
                         .background(Color.gray.opacity(0.1))
                         .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .tint(Color("CalendarColor"))
+                        .tint(Color("DarkColor"))
+                        .frame(height: 400)
                     Spacer(minLength: 30)
                     Text("칼로리 소비량")
                         .font(.title2)
@@ -42,13 +45,25 @@ struct ContentView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .foregroundStyle(Color("TextColor"))
                     VStack(alignment: .leading, spacing: 8) { // 간격 조정
-                        Text("식사 kcal")
-                        Text(" - 전체 운동 kcal")
+                        HStack {
+                            Text(" ") // 공백 문자 추가
+                                .frame(width: 20) // 이모지 크기만큼 너비 지정
+                            Text("식사: 2000 kcal")
+                        }
+                        HStack {
+                            //수평 선
+                            let totalBurnedCalories = workoutForSelectedDate.reduce(0) { $0 + $1.burnedCalories }
+                            
+                            Text("➖ 운동 소모 칼로리: \(totalBurnedCalories, specifier: "%.1f") kcal")
+                        }
+                        
                         Divider() // 검은색 구분선
+
                             .background(Color("TextColor"))
                         
                         Text(" kcal")
                             .font(.headline)
+
                     }
                     .padding()
                     .background(Color("SubColor"))
@@ -70,20 +85,29 @@ struct ContentView: View {
                                     .foregroundStyle(Color("TextColor"))
                                     .background(Color("MainColor"))
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
+                            }
+                        }
+                        VStack {
+                            if workoutForSelectedDate.isEmpty {
+                                HStack {
+                                    Spacer()
+                                    Text("운동 기록이 없습니다!")
+                                        .padding()
+                                    Spacer()
+                                }
                                 
+                            } else {
+                                ForEach(workoutForSelectedDate) { myWorkout in
+                                    WorkoutRowView(myWorkout: myWorkout)
+                                }
                             }
                         }
-                        if workoutForSelectedDate.isEmpty {
-                            Text("운동 기록이 없습니다!")
-                        }else {
-                            ForEach(workoutForSelectedDate) { workout in
-                                WorkoutRowView(workout: workout)
-                            }
-                        }
-                        Spacer(minLength: 50)
-                        
-                        
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.gray.opacity(0.1))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
+                    
                     Spacer(minLength: 50)
                     VStack {
                         HStack {
@@ -101,21 +125,33 @@ struct ContentView: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                             }
                         }
-                        
-                        if mealForSelectedDate.isEmpty {
-                            Text("식단 기록이 없습니다!")
-                        }else {
-                            
-                            
-                            ForEach(mealForSelectedDate) { meal in
-                                MealRowView(meal: meal)
+                        VStack {
+                            if mealForSelectedDate.isEmpty {
+                                Text("식단 기록이 없습니다!")
+                                    .padding()
+                            }else {
+                                ForEach(mealForSelectedDate) { meal in
+                                    MealRowView(meal: meal)
+                                }
                             }
                         }
-                        
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.gray.opacity(0.1))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
                 }
                 .navigationTitle("무브로그")
                 .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        NavigationLink {
+                            UserProfileView()
+                        }
+                        label: {
+                            Image(systemName: "person.circle")
+                                .foregroundStyle(Color.black.opacity(1))
+                        }
+                    }
                     ToolbarItem(placement: .navigationBarTrailing) {
                         NavigationLink {
                             
@@ -129,25 +165,13 @@ struct ContentView: View {
             }
             .padding()
         }
-        .onAppear {
-            //            print("📆 현재 선택된 날짜: \(selectedDate)")
-            //
-            //            Task {
-            //                do {
-            //                    let allMeals = try modelContext.fetch(FetchDescriptor<Meal>())
-            //                    print("💾 저장된 Meal 개수: \(allMeals.count)")
-            //
-            //                    for meal in allMeals {
-            //                        print("🍽 Meal - 이름: \(meal.name), 날짜: \(meal.date)")
-            //                    }
-            //                } catch {
-            //                    print("❌ Meal 데이터 가져오기 실패: \(error)")
-            //                }
-            //            }
-        }
-        
     }
-    
+}
+
+extension Date {
+    func startOfDay() -> Date {
+        return Calendar.current.startOfDay(for: self)
+    }
 }
 
 #Preview {

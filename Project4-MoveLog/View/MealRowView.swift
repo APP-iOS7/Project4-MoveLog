@@ -16,16 +16,24 @@ struct MealRowView: View {
     var body: some View {
         HStack {
         Spacer()
+        Spacer()
             Text(meal.name)
                 .frame(width: 200, alignment: .leading)
                 .lineLimit(1)
             Spacer()
             Text("\(meal.calories) kcal")
                 .frame(width: 100, alignment: .leading)
+                .frame(width: 200, alignment: .leading)
+                .lineLimit(1)
+            Spacer()
+            Text("\(meal.calories) kcal")
+                .frame(width: 100, alignment: .leading)
         }
+
         .foregroundStyle(Color("TextColor"))
         .frame(maxWidth: .infinity, minHeight: 50) // maxWidth 사용
         .background(Color("SubColor"))
+
         .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }

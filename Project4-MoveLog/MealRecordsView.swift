@@ -25,6 +25,7 @@ struct MealRecordsView: View {
         VStack {
             HStack {
                 Text("식단 종류")
+
                     .font(.title2)
                     .fontWeight(.bold)
                     .frame(maxWidth: .infinity, alignment: .leading)

@@ -65,19 +65,6 @@ struct MealAddView: View {
     }
 }
 
-private struct ValueBox: View {
-    var unit: String
-    
-    var body: some View {
-        HStack {
-            Text(unit)
-                .font(.caption)
-                .foregroundColor(.gray)
-        }
-    }
-}
-
-
 
 #Preview {
     MealAddView(selectedDate: Date())
