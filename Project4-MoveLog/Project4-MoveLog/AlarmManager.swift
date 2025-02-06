@@ -28,8 +28,10 @@ class AlarmManager {
             content.title = "운동할 시간입니다!"
             content.body = "운동을 해보세요! 건강을 위해 움직여 볼까요?"
             content.sound = sound == "벨소리" ? .default : .none
-            content.userInfo = ["exerciseName": sampleExercises[0].name]
+            content.userInfo = ["isAlarmTouched": "userInfoTest"]
+            
             let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+            
             center.add(request) { error in
                 if let error = error {
                     print("❌ 알람 설정 실패: \(error.localizedDescription)")

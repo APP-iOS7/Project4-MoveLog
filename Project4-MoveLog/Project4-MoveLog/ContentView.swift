@@ -49,31 +49,18 @@ struct ContentView: View {
                 }
                 NotificationCenter.default.addObserver(forName: NSNotification.Name("OpenAlarmView"), object: nil, queue: .main) { notification in
                     print("📢 OpenAlarmView 알림 수신!")
-                    
-                    if let userInfo = notification.userInfo,
-                       let exerciseName = userInfo["exerciseName"] as? String {
-                        print("🏋️‍♂️ 운동 이름: \(exerciseName)")
-                        
-                        if let matchedExercise = sampleExercises.first(where: { $0.name == exerciseName }) {
-                            self.notificationExercise = matchedExercise
-                        } else {
-                            self.notificationExercise = sampleExercises.first
-                        }
+                    if let userInfo = notification.userInfo {
                         self.showAlarmView = true
-                        
+                        print("userInfo : \(userInfo)")
                     }
                     else {
-                        print("⚠️ userInfo에 운동 데이터 없음")
+                        print("⚠️ userInfo에 데이터 없음")
                     }
-                    
                     self.isFromNotification = true
                 }
-                
             }
             .sheet(isPresented: $showAlarmView) {
-                if let exercise = notificationExercise {
-                    ExerciseAlarmView(exercise: exercise)
-                }
+                ExerciseAlarmView(exercise: ExerciseModel.randomExercise())
             }
         }
     }

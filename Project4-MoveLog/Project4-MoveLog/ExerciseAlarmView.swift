@@ -81,12 +81,17 @@ struct ExerciseModel: Identifiable, Codable, Equatable {
     let id: UUID
     let name: String
     let description: String
+    
+    static func randomExercise() -> ExerciseModel {
+           return sampleExercises.randomElement() ?? sampleExercises[0]
+       }
+    
 }
 
 // 샘플 운동 데이터 (10가지)
 let sampleExercises: [ExerciseModel] = [
-    ExerciseModel(id: UUID(), name: "푸쉬업", description: "팔을 어깨너비로 벌리고 내려갔다 올라오세요."),
     ExerciseModel(id: UUID(), name: "스쿼트", description: "엉덩이를 뒤로 빼면서 앉았다 일어나세요."),
+    ExerciseModel(id: UUID(), name: "푸쉬업", description: "팔을 어깨너비로 벌리고 내려갔다 올라오세요."),
     ExerciseModel(id: UUID(), name: "런지", description: "한쪽 다리를 앞으로 내밀고 내려갔다 올라오세요."),
     ExerciseModel(id: UUID(), name: "버피 테스트", description: "점프 후 팔굽혀펴기를 연속으로 수행하세요."),
     ExerciseModel(id: UUID(), name: "플랭크", description: "팔꿈치를 대고 몸을 곧게 유지하세요."),
