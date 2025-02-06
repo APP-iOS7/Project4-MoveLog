@@ -37,7 +37,6 @@ struct ContentView: View {
                         .background(Color.gray.opacity(0.1))
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .tint(Color("darkColor"))
-                        .frame(height: 400)
                     Spacer(minLength: 30)
                     Text("칼로리 소비량")
                         .font(.title2)
