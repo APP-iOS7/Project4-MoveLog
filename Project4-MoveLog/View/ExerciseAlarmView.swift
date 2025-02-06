@@ -40,11 +40,14 @@ struct ExerciseAlarmView: View {
                         startTimer()
                     }
                 }
+                .background(Color("mainColor"))
+                .foregroundStyle(Color.white)
                 .buttonStyle(.borderedProminent)
                 
                 Button("초기화") {
                     resetTimer()
                 }
+                .foregroundStyle(Color("mainColor").opacity(0.5))
                 .buttonStyle(.bordered)
             }
         }
@@ -101,3 +104,4 @@ let sampleExercises: [ExerciseModel] = [
     ExerciseModel(id: UUID(), name: "니 업", description: "무릎을 높이 올리면서 제자리 뛰기 하세요."),
     ExerciseModel(id: UUID(), name: "레그 레이즈", description: "누워서 다리를 들어 올렸다 내리세요.")
 ]
+

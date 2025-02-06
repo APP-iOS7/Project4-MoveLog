@@ -69,6 +69,7 @@ struct WorkoutAddView: View {
                     modelContext.insert(workout)
                     dismiss()
                 }
+                .foregroundStyle(Color.black)
             }
         }
     }

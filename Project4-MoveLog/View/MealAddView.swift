@@ -26,7 +26,7 @@ struct MealAddView: View {
                     .fontWeight(.bold)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
-                    .background(Color.gray.opacity(0.4))
+                    .background(Color.gray.opacity(0.1))
                     .cornerRadius(8)
                 
                 HStack {
@@ -39,12 +39,12 @@ struct MealAddView: View {
                         .multilineTextAlignment(.trailing)
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)
-                        .background(Color.gray.opacity(0.4))
+                        .background(Color.gray.opacity(0.1))
                         .cornerRadius(8)
                     ValueBox(unit: "kcal")
                 }
             }
-            .background(Color.gray.opacity(0.3))
+            .background(Color.gray.opacity(0.1))
             .cornerRadius(12)
             .padding(.horizontal, 20)
             
@@ -60,6 +60,7 @@ struct MealAddView: View {
                         modelContext.insert(meals)
                         dismiss()
                     }
+                    .foregroundStyle(Color.black)
                 }
             }
     }

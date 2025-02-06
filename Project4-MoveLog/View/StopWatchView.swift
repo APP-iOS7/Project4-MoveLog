@@ -24,7 +24,7 @@ struct StopwatchView: View {
                 Button(action: startStopwatch) {
                     Text(isRunning ? "정지" : "시작")
                         .frame(width: 100, height: 50)
-                        .background(isRunning ? Color.red : Color.green)
+                        .background(isRunning ? Color.red : Color("mainColor"))
                         .foregroundColor(.white)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
@@ -32,7 +32,7 @@ struct StopwatchView: View {
                 Button(action: resetStopwatch) {
                     Text("리셋")
                         .frame(width: 100, height: 50)
-                        .background(Color.gray)
+                        .background(Color.gray.opacity(0.6))
                         .foregroundColor(.white)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                 }

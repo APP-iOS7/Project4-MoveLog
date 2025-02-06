@@ -32,12 +32,15 @@ struct AlarmSettingsView: View {
                     Picker("시간", selection: $alarmHour) {
                         ForEach(1...12, id: \.self) { Text("\($0)").tag($0) }
                     }
+                    .tint(Color.black)
 
                     Text(":")
+                        .foregroundStyle(Color.black)
                     
                     Picker("분", selection: $alarmMinute) {
                         ForEach(0...59, id: \.self) { Text(String(format: "%02d", $0)).tag($0) }
                     }
+                    .tint(Color.black)
                 }
                 .frame(width: 300)
 
@@ -50,12 +53,14 @@ struct AlarmSettingsView: View {
                     }
                 } label: {
                     Text(alarmDays.isEmpty ? "반복할 요일 선택" : alarmDays.sorted(by: daySort).joined(separator: ", "))
-                        .foregroundColor(.blue)
+                        .foregroundColor(Color.black)
                 }
 
                 // 사운드 선택
                 Picker("사운드 설정", selection: $alarmSound) {
-                    ForEach(sounds, id: \.self) { Text($0).tag($0) }
+                    ForEach(sounds, id: \.self) {
+                        Text($0).tag($0)
+                    }
                 }
                 .pickerStyle(SegmentedPickerStyle())
 
@@ -64,6 +69,8 @@ struct AlarmSettingsView: View {
                     saveAlarm()
                 }
                 .buttonStyle(.borderedProminent)
+                .tint(Color("mainColor"))
+                
 
                 // 🔹 저장된 알람 목록 표시
                 List {
@@ -90,6 +97,7 @@ struct AlarmSettingsView: View {
             }
             .padding()
             .navigationTitle("알람 설정")
+            .tint(.black)
             .onAppear {
                 loadAlarms()
             }
@@ -161,4 +169,8 @@ struct AlarmSettingsView: View {
         savedAlarmsData = "[]"
         AlarmManager.shared.removeAllAlarms()
     }
+}
+
+#Preview {
+    AlarmSettingsView()
 }

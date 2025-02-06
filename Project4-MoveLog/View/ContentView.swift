@@ -49,7 +49,7 @@ struct ContentView: View {
                         .datePickerStyle(.graphical)
                         .background(Color.gray.opacity(0.1))
                         .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .tint(Color("darkColor"))
+                        .tint(Color("mainColor"))
                     Spacer(minLength: 30)
                     HStack {
                         Text("칼로리 소비량")
@@ -113,17 +113,17 @@ struct ContentView: View {
                             Text(" ") // 공백 문자 추가
                                 .frame(width: 20) // 이모지 크기만큼 너비 지정
                             let totalCalories = totalMealCalories - totalBurnedCalories
-                                if totalCalories > 0 {
-                                    Text("결과 : \(totalCalories) kcal")
-                                        .foregroundStyle(Color.red)
-                                } else {
-                                    Text("결과 : \(totalCalories) kcal")
-                                        .foregroundStyle(Color.blue)
-                                }
+                            if totalCalories > 0 {
+                                Text("결과 : \(totalCalories) kcal")
+                                    .foregroundStyle(Color.red)
+                            } else {
+                                Text("결과 : \(totalCalories) kcal")
+                                    .foregroundStyle(Color.blue)
+                            }
                         }
                         .padding(EdgeInsets(top: 0, leading: 8, bottom: 16, trailing: 16))
                     }
-                    .background(Color("subColor"))
+                    .background(Color.gray.opacity(0.1))
                     .foregroundStyle(Color("textColor"))
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .padding(.horizontal, 2)
@@ -137,9 +137,9 @@ struct ContentView: View {
                             Spacer()
                             NavigationLink(destination: WorkoutRecordsView()) {
                                 Text("운동 추가")
-                                    .font(.title2)
-                                    .foregroundStyle(Color("textColor"))
-                                    .padding(.horizontal, 15)
+                                    .font(.system(size: 15))
+                                    .foregroundStyle(Color.white)
+                                    .padding(.horizontal, 10)
                                     .padding(.vertical, 5)
                                     .background(Color("mainColor"))
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -176,9 +176,9 @@ struct ContentView: View {
                             Spacer()
                             NavigationLink(destination: MealRecordsView(selectedDate: selectedDate)) {
                                 Text("식단 추가")
-                                    .font(.title2)
-                                    .foregroundStyle(Color("textColor"))
-                                    .padding(.horizontal, 15)
+                                    .font(.system(size: 15))
+                                    .foregroundStyle(Color.white)
+                                    .padding(.horizontal, 10)
                                     .padding(.vertical, 5)
                                     .background(Color("mainColor"))
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -204,8 +204,17 @@ struct ContentView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
                 }
-                .navigationTitle("무브로그")
                 .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        HStack {
+                            Image("icon")
+                            Text("무브로그")
+                                .font(.title)
+                                .bold()
+                                .foregroundColor(.black)
+                        }
+                        
+                    }
                     ToolbarItem(placement: .navigationBarTrailing) {
                         NavigationLink {
                             UserProfileView()
@@ -222,6 +231,7 @@ struct ContentView: View {
                         }
                     }
                 }
+                .tint(.black)
                 .onAppear {
                     loadUserProfile()
                     

@@ -48,7 +48,7 @@ struct WorkoutRecordsView: View {
                     NavigationLink(destination: WorkoutListView()) {
                         Text("운동추가")
                             .frame(maxWidth: 100, minHeight: 30)
-                            .foregroundStyle(Color("textColor"))
+                            .foregroundStyle(Color.white)
                             .background(Color("mainColor"))
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
@@ -123,7 +123,6 @@ struct WorkoutRecordsView: View {
 
                 Button(action: {
                     guard let selectedWorkout = selectedWorkout else {
-                        print("❌ 운동을 선택해야 합니다 ❌")
                         return
                     }
 
@@ -149,14 +148,13 @@ struct WorkoutRecordsView: View {
                 .frame(maxWidth: .infinity, maxHeight: 50)
                 .background(Color("mainColor"))
                 .clipShape(RoundedRectangle(cornerRadius: 10))
-                .foregroundStyle(Color("textColor"))
+                .foregroundStyle(Color.white)
             }
             .padding()
         }
         .onAppear {
                     Task {
                         do {
-                            // ✅ `@Query` 없이 직접 데이터 가져오기
                             workouts = try modelContext.fetch(FetchDescriptor<Workout>())
                             userProfile = try modelContext.fetch(FetchDescriptor<UserProfile>())
 

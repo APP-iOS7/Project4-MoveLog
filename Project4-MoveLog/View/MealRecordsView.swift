@@ -33,7 +33,7 @@ struct MealRecordsView: View {
                 NavigationLink(destination: MealAddView(selectedDate: selectedDate)) {
                     Text("식단추가")
                         .frame(maxWidth: 100, minHeight: 30)
-                        .foregroundStyle(Color("textColor"))
+                        .foregroundStyle(Color.white)
                         .background(Color("mainColor"))
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                 }

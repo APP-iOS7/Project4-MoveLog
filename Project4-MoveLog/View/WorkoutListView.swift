@@ -63,9 +63,11 @@ struct WorkoutListView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink(destination: WorkoutEditView(workout: Workout(name: "새 운동", type: .cardio))) {
                     Text("추가")
+                        .foregroundStyle(Color.black)
                 }
             }
         }
+        .tint(.black)
         //  Edit 버튼을 눌렀을 때 WorkoutEditView로 이동
         //            .navigationDestination(isPresented: Binding(
         //                get: { selectedWorkout != nil },
