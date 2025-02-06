@@ -14,6 +14,11 @@ struct ContentView: View {
     @Query private var myWorkout: [MyWorkout]
     @Query private var meal: [Meal]
     @Query private var user: [UserProfile]
+    
+    private var totalMealCalories: Int {
+        mealForSelectedDate.reduce(0) { $0 + $1.calories }
+    }
+    
     private var totalBurnedCalories = 0
     var workoutForSelectedDate: [MyWorkout] {
         myWorkout.filter { item in
@@ -48,7 +53,7 @@ struct ContentView: View {
                         HStack {
                             Text(" ") // 공백 문자 추가
                                 .frame(width: 20) // 이모지 크기만큼 너비 지정
-                            Text("식사: 2000 kcal")
+                            Text("식사: \(totalMealCalories) kcal")
                         }
                         HStack {
                             //수평 선
