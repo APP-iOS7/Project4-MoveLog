@@ -1,4 +1,8 @@
 # 프로젝트 명: MoveLog
+
+![Image](https://github.com/user-attachments/assets/f4b22651-c199-4b71-b927-a5015959275f)
+
+
 MoveLog는 운동과 식단을 동시에 기록하고 관리할 수 있는 건강 관리 앱입니다.
 
 
