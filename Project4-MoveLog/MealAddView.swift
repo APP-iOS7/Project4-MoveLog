@@ -11,6 +11,7 @@ import SwiftData
 struct MealAddView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    var selectedDate: Date
     
     @State private var name: String = ""
     @State private var calories: Int = 0
@@ -55,7 +56,7 @@ struct MealAddView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("저장") {
-                        let meals = Meal(name: name, calories: calories, date: Date())
+                        let meals = Meal(name: name, calories: calories, date: selectedDate)
                         modelContext.insert(meals)
                         dismiss()
                     }
@@ -79,7 +80,7 @@ private struct ValueBox: View {
 
 
 #Preview {
-    MealAddView()
+    MealAddView(selectedDate: Date())
         .modelContainer(PreviewContainer.shared.container)
 }
 
