@@ -14,23 +14,19 @@ struct MealRowView: View {
         self.meal = meal
     }
     var body: some View {
-        HStack {
-        Spacer()
-        Spacer()
+        HStack(spacing: 10){
             Text(meal.name)
-                .frame(width: 200, alignment: .leading)
+                .frame(width: 100, alignment: .leading)
                 .lineLimit(1)
             Spacer()
             Text("\(meal.calories) kcal")
-                .frame(width: 100, alignment: .leading)
-                .frame(width: 200, alignment: .leading)
+                .frame(alignment: .leading)
                 .lineLimit(1)
-            Spacer()
-            Text("\(meal.calories) kcal")
-                .frame(width: 100, alignment: .leading)
         }
         .foregroundStyle(Color("textColor"))
-        .frame(maxWidth: .infinity, minHeight: 50)
+        .font(.system(size: 15))
+        .padding(.vertical, 5)
+        .padding(.horizontal, 10)
         .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }

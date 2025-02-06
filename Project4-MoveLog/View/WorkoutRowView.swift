@@ -16,20 +16,23 @@ struct WorkoutRowView: View {
     }
     
     var body: some View {
-        HStack(spacing: 20) {
+        HStack(spacing: 10) {
             Text(myWorkout.workout.name)
-                .frame(width: 100, alignment: .leading)
+                .frame(width: 120, alignment: .leading)
                 .lineLimit(1)
+            Spacer()
             Text("\(myWorkout.duration.formattedDuration())")
-                .frame(width: 100, alignment: .leading)
+                .frame(width: 80, alignment: .leading)
                 .lineLimit(1)
+            Spacer()
             Text("\(myWorkout.burnedCalories.formattedCalories())")
-                .frame(width: 100, alignment: .leading)
+                .frame(width: 80, alignment: .trailing)
                 .lineLimit(1)
         }
         .foregroundStyle(Color("textColor"))
-        .frame(maxWidth: .infinity, minHeight: 50)
-//        .background(Color.gray.opacity(0.1))
+        .font(.system(size: 15))
+        .padding(.vertical, 5)
+        .padding(.horizontal, 10)
         .clipShape(RoundedRectangle(cornerRadius: 10))
 
     }

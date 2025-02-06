@@ -12,6 +12,8 @@ struct UserProfileView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     
+    @State private var profile: UserProfile?
+    
     @State private var gender: Gender = .male
     @State private var age: String = ""
     @State private var height: String = ""
@@ -57,10 +59,35 @@ struct UserProfileView: View {
                 }
             }
         }
+        .onAppear {
+            loadProfile()
+        }
         .onChange(of: gender) { calculateBMR() }
         .onChange(of: age) { calculateBMR() }
         .onChange(of: height) { calculateBMR() }
         .onChange(of: weight) { calculateBMR() }
+    }
+    
+    private func loadProfile() {
+        Task {
+            do {
+                let fetchDescriptor = FetchDescriptor<UserProfile>()
+                let profiles = try modelContext.fetch(fetchDescriptor)
+                
+                if let existingProfile = profiles.first {
+                    self.profile = existingProfile
+                    self.gender = existingProfile.gender
+                    self.age = String(existingProfile.age)
+                    self.height = String(existingProfile.height)
+                    self.weight = String(existingProfile.weight)
+                    calculateBMR()
+                } else {
+                    print("⚠️ 저장된 프로필 없음")
+                }
+            } catch {
+                print("❌ 프로필 불러오기 실패: \(error)")
+            }
+        }
     }
     
     private func calculateBMR() {
@@ -77,21 +104,24 @@ struct UserProfileView: View {
               let heightDouble = Double(height),
               let weightDouble = Double(weight) else { return }
         
-        let newUser = UserProfile(gender: gender, age: ageInt, height: heightDouble, weight: weightDouble)
-        print(newUser)
-        modelContext.insert(newUser)
+        if let existingProfile = profile {
+            // 기존 프로필 업데이트
+            existingProfile.gender = gender
+            existingProfile.age = ageInt
+            existingProfile.height = heightDouble
+            existingProfile.weight = weightDouble
+        } else {
+            // 새로운 프로필 생성 후 저장
+            let newUser = UserProfile(gender: gender, age: ageInt, height: heightDouble, weight: weightDouble)
+            modelContext.insert(newUser)
+            self.profile = newUser
+        }
+        
         do {
             try modelContext.save()
-            print("UserProfile 저장 성공!")
-            
-            // 저장된 데이터 개수 확인
-            let fetchDescriptor = FetchDescriptor<UserProfile>()
-            let savedProfiles = try modelContext.fetch(fetchDescriptor)
-            print("저장된 UserProfile 개수: \(savedProfiles.count)")
-            print("저장된 데이터: \(savedProfiles)")
-            
+            print("프로필 저장 완료")
         } catch {
-            print("UserProfile 저장 실패: \(error)")
+            print("프로필 저장 실패: \(error)")
         }
         
         dismiss()

@@ -13,7 +13,10 @@ struct ContentView: View {
     @State private var selectedDate: Date = Date()
     @Query private var myWorkout: [MyWorkout]
     @Query private var meal: [Meal]
-    @Query private var user: [UserProfile]
+    @State private var userProfile: UserProfile?
+    @State private var showUserInfo = false
+    
+    
     private var totalBurnedCalories = 0
     var workoutForSelectedDate: [MyWorkout] {
         myWorkout.filter { item in
@@ -38,50 +41,95 @@ struct ContentView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .tint(Color("darkColor"))
                     Spacer(minLength: 30)
-                    Text("칼로리 소비량")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(Color("textColor"))
+                    HStack {
+                        Text("칼로리 소비량")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundStyle(Color("textColor"))
+                        Spacer(minLength: 30)
+                        if let profile = userProfile {
+                            if showUserInfo {
+                                VStack {
+                                    HStack {
+                                        Text("\(profile.gender.rawValue) | \(profile.height, specifier: "%.1f")cm | \(profile.weight, specifier: "%.1f")kg")
+                                        Spacer()
+                                    }
+                                    HStack {
+                                        Text("BMR: \(profile.bmr, specifier: "%.1f") kcal")
+                                        Spacer()
+                                    }
+                                }
+                                .font(.footnote)
+                                .foregroundStyle(Color("textColor"))
+                                .transition(.opacity)
+                            }
+                        }
+                        else {
+                            Text("사용자 정보가 없습니다!")
+                        }
+                        Spacer()
+                        
+                        
+                        Button(action: {
+                            withAnimation {
+                                showUserInfo.toggle()
+                            }
+                        }) {
+                            Image(systemName: !showUserInfo ? "eye.slash" : "eye")
+                                .foregroundStyle(Color("textColor"))
+                        }
+                    }
+                    .padding(.horizontal, 2)
+                    Spacer(minLength: 16)
                     VStack(alignment: .leading, spacing: 8) { // 간격 조정
                         HStack {
                             Text(" ") // 공백 문자 추가
                                 .frame(width: 20) // 이모지 크기만큼 너비 지정
                             Text("식사: 2000 kcal")
                         }
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 8)
                         HStack {
                             //수평 선
                             let totalBurnedCalories = workoutForSelectedDate.reduce(0) { $0 + $1.burnedCalories }
                             
                             Text("➖ 운동 소모 칼로리: \(totalBurnedCalories, specifier: "%.1f") kcal")
                         }
-                        
+                        .padding(.horizontal, 8)
                         Divider() // 검은색 구분선
                             .background(Color("textColor"))
-                        Text("결과 kcal")
+                            .padding(8)
+                        HStack {
+                            Text(" ") // 공백 문자 추가
+                                .frame(width: 20) // 이모지 크기만큼 너비 지정
+                            Text("결과 kcal")
+                        }
+                        .padding(EdgeInsets(top: 0, leading: 8, bottom: 16, trailing: 16))
                     }
-                    .padding()
                     .background(Color("subColor"))
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
                     .foregroundStyle(Color("textColor"))
-                    
-                    Spacer(minLength: 50)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .padding(.horizontal, 2)
+                    Spacer(minLength: 30)
                     VStack {
                         HStack {
                             Text("운동 기록")
                                 .font(.title2)
                                 .fontWeight(.bold)
-                                .frame(maxWidth: .infinity, alignment: .leading)
                                 .foregroundStyle(Color("textColor"))
+                            Spacer()
                             NavigationLink(destination: WorkoutRecordsView()) {
-                                Text("START")
+                                Text("운동 추가")
                                     .font(.title2)
-                                    .frame(maxWidth: .infinity, minHeight: 40)
                                     .foregroundStyle(Color("textColor"))
+                                    .padding(.horizontal, 15)
+                                    .padding(.vertical, 5)
                                     .background(Color("mainColor"))
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                             }
                         }
+                        .padding(.horizontal, 2)
+                        
                         VStack {
                             if workoutForSelectedDate.isEmpty {
                                 HStack {
@@ -97,8 +145,6 @@ struct ContentView: View {
                                 }
                             }
                         }
-                        .padding()
-                        .frame(maxWidth: .infinity)
                         .background(Color.gray.opacity(0.1))
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
@@ -109,29 +155,34 @@ struct ContentView: View {
                             Text("식단 기록")
                                 .font(.title2)
                                 .fontWeight(.bold)
-                                .frame(maxWidth: .infinity, alignment: .leading)
                                 .foregroundStyle(Color("textColor"))
+                            Spacer()
                             NavigationLink(destination: MealRecordsView()) {
                                 Text("식단 추가")
                                     .font(.title2)
-                                    .frame(maxWidth: .infinity, minHeight: 40)
                                     .foregroundStyle(Color("textColor"))
+                                    .padding(.horizontal, 15)
+                                    .padding(.vertical, 5)
                                     .background(Color("mainColor"))
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                             }
                         }
+                        .padding(.horizontal, 2)
+                        
                         VStack {
                             if mealForSelectedDate.isEmpty {
-                                Text("식단 기록이 없습니다!")
-                                    .padding()
+                                HStack {
+                                    Spacer()
+                                    Text("식단 기록이 없습니다!")
+                                        .padding()
+                                    Spacer()
+                                }
                             }else {
                                 ForEach(mealForSelectedDate) { meal in
                                     MealRowView(meal: meal)
                                 }
                             }
                         }
-                        .padding()
-                        .frame(maxWidth: .infinity)
                         .background(Color.gray.opacity(0.1))
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
@@ -157,10 +208,26 @@ struct ContentView: View {
                         }
                     }
                 }
+                .onAppear {
+                    loadUserProfile()
+                }
             }
             .padding()
         }
     }
+    
+    private func loadUserProfile() {
+        Task {
+            do {
+                let fetchDescriptor = FetchDescriptor<UserProfile>()
+                let profiles = try modelContext.fetch(fetchDescriptor)
+                self.userProfile = profiles.first
+            } catch {
+                print("프로필 로드 실패: \(error)")
+            }
+        }
+    }
+    
 }
 
 extension Date {
