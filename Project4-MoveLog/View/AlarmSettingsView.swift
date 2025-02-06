@@ -32,7 +32,6 @@ struct AlarmSettingsView: View {
                     Picker("시간", selection: $alarmHour) {
                         ForEach(1...12, id: \.self) { Text("\($0)").tag($0) }
                     }
-                    .tint(Color.black)
 
                     Text(":")
                         .foregroundStyle(Color.black)
@@ -40,7 +39,6 @@ struct AlarmSettingsView: View {
                     Picker("분", selection: $alarmMinute) {
                         ForEach(0...59, id: \.self) { Text(String(format: "%02d", $0)).tag($0) }
                     }
-                    .tint(Color.black)
                 }
                 .frame(width: 300)
 
@@ -92,6 +90,7 @@ struct AlarmSettingsView: View {
                 }
                 .buttonStyle(.bordered)
                 .foregroundColor(.red)
+                .background(Color.gray.opacity(0.1))
 
                 Spacer()
             }

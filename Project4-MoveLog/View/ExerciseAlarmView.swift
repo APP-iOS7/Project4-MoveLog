@@ -40,15 +40,18 @@ struct ExerciseAlarmView: View {
                         startTimer()
                     }
                 }
-                .background(Color("mainColor"))
                 .foregroundStyle(Color.white)
-                .buttonStyle(.borderedProminent)
+                .background(Color("mainColor"))
+                .buttonStyle(.bordered)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
                 
                 Button("초기화") {
                     resetTimer()
                 }
-                .foregroundStyle(Color("mainColor").opacity(0.5))
+                .foregroundStyle(Color.black.opacity(0.5))
                 .buttonStyle(.bordered)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+
             }
         }
         .padding()
