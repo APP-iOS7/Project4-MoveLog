@@ -13,22 +13,17 @@ struct WorkoutEditView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     let workout: Workout
-    
     @State private var selectedType: WorkoutType
     @State private var name: String = ""
-    
-    
-    
     
     init(workout: Workout) {
         self.workout = workout
         _name = State(initialValue: workout.name)
         _selectedType = State(initialValue: workout.type)
     }
-    
-    
+
     var body: some View {
-        
+
         NavigationStack {
             Spacer()
             List {
@@ -46,7 +41,7 @@ struct WorkoutEditView: View {
                     }
                 }
                 .pickerStyle(.menu)
-                .tint(Color("TextColor"))
+                .tint(Color("textColor"))
             }
             
             .background(Color.gray.opacity(0.3))
@@ -72,19 +67,6 @@ struct WorkoutEditView: View {
             }
     }
 }
-
-struct ValueBox: View {
-    var unit: String
-    
-    var body: some View {
-        HStack {
-            Text(unit)
-                .font(.caption)
-                .foregroundColor(.gray)
-        }
-    }
-}
-
 
 #Preview {
     WorkoutEditView(workout: Workout(name: "Running", type: .cardio))

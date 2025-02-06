@@ -36,14 +36,14 @@ struct ContentView: View {
                         .datePickerStyle(.graphical)
                         .background(Color.gray.opacity(0.1))
                         .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .tint(Color("DarkColor"))
+                        .tint(Color("darkColor"))
                         .frame(height: 400)
                     Spacer(minLength: 30)
                     Text("칼로리 소비량")
                         .font(.title2)
                         .fontWeight(.bold)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(Color("TextColor"))
+                        .foregroundStyle(Color("textColor"))
                     VStack(alignment: .leading, spacing: 8) { // 간격 조정
                         HStack {
                             Text(" ") // 공백 문자 추가
@@ -58,13 +58,13 @@ struct ContentView: View {
                         }
                         
                         Divider() // 검은색 구분선
-                            .background(Color("TextColor"))
+                            .background(Color("textColor"))
                         Text("결과 kcal")
                     }
                     .padding()
-                    .background(Color("SubColor"))
+                    .background(Color("subColor"))
                     .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .foregroundStyle(Color("TextColor"))
+                    .foregroundStyle(Color("textColor"))
                     
                     Spacer(minLength: 50)
                     VStack {
@@ -73,13 +73,13 @@ struct ContentView: View {
                                 .font(.title2)
                                 .fontWeight(.bold)
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                                .foregroundStyle(Color("TextColor"))
+                                .foregroundStyle(Color("textColor"))
                             NavigationLink(destination: WorkoutRecordsView()) {
                                 Text("START")
                                     .font(.title2)
                                     .frame(maxWidth: .infinity, minHeight: 40)
-                                    .foregroundStyle(Color("TextColor"))
-                                    .background(Color("MainColor"))
+                                    .foregroundStyle(Color("textColor"))
+                                    .background(Color("mainColor"))
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                             }
                         }
@@ -111,13 +111,13 @@ struct ContentView: View {
                                 .font(.title2)
                                 .fontWeight(.bold)
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                                .foregroundStyle(Color("TextColor"))
-                            NavigationLink(destination: UserProfileView()) {
+                                .foregroundStyle(Color("textColor"))
+                            NavigationLink(destination: MealRecordsView()) {
                                 Text("식단 추가")
                                     .font(.title2)
                                     .frame(maxWidth: .infinity, minHeight: 40)
-                                    .foregroundStyle(Color("TextColor"))
-                                    .background(Color("MainColor"))
+                                    .foregroundStyle(Color("textColor"))
+                                    .background(Color("mainColor"))
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                             }
                         }
@@ -161,30 +161,7 @@ struct ContentView: View {
             }
             .padding()
         }
-//        .onAppear() {
-//            fetchData()
-//
-//        }
     }
-    
-//    private func fetchData() {
-//            Task {
-//                do {
-//                    myWorkout = try modelContext.fetch(FetchDescriptor<MyWorkout>())
-//                    meal = try modelContext.fetch(FetchDescriptor<Meal>())
-//                    user = try modelContext.fetch(FetchDescriptor<UserProfile>())
-//                    workout = try modelContext.fetch(FetchDescriptor<Workout>())
-//                    print("✅ 내 운동 데이터 불러옴: \(myWorkout.count)")
-//                    print("✅ 식사 데이터 불러옴: \(meal.count)")
-//                    print("✅ 사용자 데이터 불러옴: \(user.count)")
-//                    print("✅ 운동 데이터 불러옴: \(workout.count)")
-//
-//                } catch {
-//                    print("❌ 데이터 가져오기 실패: \(error)")
-//                }
-//            }
-//        }
-    
 }
 
 extension Date {
