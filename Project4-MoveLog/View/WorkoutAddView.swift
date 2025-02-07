@@ -38,13 +38,11 @@ struct WorkoutAddView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .foregroundStyle(Color.black)
                     .tint(.primary)
-                    
                 }
             }
             .background(Color.gray.opacity(0.3))
             .cornerRadius(12)
             .padding(.horizontal, 20)
-            
         }
         .navigationTitle("운동 작성")
         .toolbar {

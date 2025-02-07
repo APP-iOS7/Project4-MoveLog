@@ -13,7 +13,6 @@ struct UserProfileView: View {
     @Environment(\.dismiss) private var dismiss
     
     @State private var profile: UserProfile?
-    
     @State private var gender: Gender = .male
     @State private var age: String = ""
     @State private var height: String = ""
@@ -95,10 +94,9 @@ struct UserProfileView: View {
             bmr = 0.0
             return
         }
-        
         bmr = UserProfile.calculateBMR(gender: gender, age: ageInt, height: heightDouble, weight: weightDouble)
     }
-    
+    ///  userProfile 저장
     private func saveUserProfile() {
         guard let ageInt = Int(age),
               let heightDouble = Double(height),
@@ -117,14 +115,12 @@ struct UserProfileView: View {
             modelContext.insert(newUser)
             self.profile = newUser
         }
-        
         do {
             try modelContext.save()
             print("프로필 저장 완료")
         } catch {
             print("프로필 저장 실패: \(error)")
         }
-        
         dismiss()
     }
 }

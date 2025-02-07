@@ -10,23 +10,20 @@ import SwiftData
 struct WorkoutRecordsView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) var dismiss
-
+    
     @State private var workouts: [Workout] = []
     @State private var userProfile: [UserProfile] = []
-
     @State private var selectedWorkout: Workout?
     @State private var selectedType: WorkoutType = .cardio
     @State private var burnedCalories: Double = 0.0
     @State private var stoppedTime: TimeInterval = 0
-
+    
     private var filteredWorkouts: [Workout] {
         workouts.filter { $0.type == selectedType }
     }
-
     private var user: UserProfile? {
         userProfile.first
     }
-
     var body: some View {
         NavigationStack {
             VStack {
@@ -36,9 +33,8 @@ struct WorkoutRecordsView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .foregroundStyle(Color("textColor"))
                 StopwatchView(stoppedTime: $stoppedTime) // `@Binding` 전달
-                
                 Spacer()
-
+                // 운동 유형 및 선택
                 HStack {
                     Text("운동 종류")
                         .font(.title2)
@@ -53,7 +49,6 @@ struct WorkoutRecordsView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
                 }
-
                 HStack {
                     Picker("운동 유형", selection: $selectedType) {
                         ForEach(WorkoutType.allCases, id: \.self) { type in
@@ -65,7 +60,6 @@ struct WorkoutRecordsView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .foregroundStyle(Color("textColor"))
                     .tint(Color("textColor"))
-
                     Picker("운동 선택", selection: $selectedWorkout) {
                         Text("선택").tag(nil as Workout?)
                         ForEach(filteredWorkouts, id: \.id) { workout in
@@ -86,9 +80,7 @@ struct WorkoutRecordsView: View {
                         }
                     }
                 }
-
                 Spacer()
-                
                 Text("운동 시간")
                     .font(.title2)
                     .fontWeight(.bold)
@@ -98,9 +90,7 @@ struct WorkoutRecordsView: View {
                     .font(.title2)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding()
-
                 Spacer()
-
                 Text("칼로리")
                     .font(.title2)
                     .fontWeight(.bold)
@@ -118,29 +108,23 @@ struct WorkoutRecordsView: View {
                 } else {
                     Text("운동을 선택하세요").foregroundColor(.gray)
                 }
-
                 Spacer()
-
                 Button(action: {
                     guard let selectedWorkout = selectedWorkout else {
                         return
                     }
-
                     let myWorkout = MyWorkout(
                         workout: selectedWorkout,
                         date: Date().startOfDay(),
                         duration: stoppedTime,
                         burnedCalories: burnedCalories
                     )
-
                     modelContext.insert(myWorkout)
-
                     do {
                         try modelContext.save()
                     } catch {
                         print("저장 실패: \(error)")
                     }
-
                     dismiss()
                 }, label: {
                     Text("저장하기")
@@ -153,22 +137,21 @@ struct WorkoutRecordsView: View {
             .padding()
         }
         .onAppear {
-                    Task {
-                        do {
-                            workouts = try modelContext.fetch(FetchDescriptor<Workout>())
-                            userProfile = try modelContext.fetch(FetchDescriptor<UserProfile>())
-
-                            print("✅ 불러온 운동 개수: \(workouts.count)")
-                            print("✅ 불러온 유저 프로필 개수: \(userProfile.count)")
-
-                            for workout in workouts {
-                                print("🏋️‍♂️ 운동 기록: \(workout.name), 유형: \(workout.type)")
-                            }
-                        } catch {
-                            print("❌ 데이터 가져오기 실패: \(error)")
-                        }
+            // 데이터 불러오기
+            Task {
+                do {
+                    workouts = try modelContext.fetch(FetchDescriptor<Workout>())
+                    userProfile = try modelContext.fetch(FetchDescriptor<UserProfile>())
+                    print("불러온 운동 개수: \(workouts.count)")
+                    print("불러온 유저 프로필 개수: \(userProfile.count)")
+                    for workout in workouts {
+                        print("운동 기록: \(workout.name), 유형: \(workout.type)")
                     }
+                } catch {
+                    print("데이터 가져오기 실패: \(error)")
                 }
+            }
+        }
     }
 }
 

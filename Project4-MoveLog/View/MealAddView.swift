@@ -11,11 +11,12 @@ import SwiftData
 struct MealAddView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-    var selectedDate: Date
     
     @State private var name: String = ""
     @State private var calories: Int = 0
     
+    var selectedDate: Date
+
     var body: some View {
         NavigationStack {
             VStack {
@@ -26,6 +27,7 @@ struct MealAddView: View {
                     Spacer()
                 }
                 .padding(.vertical, 30)
+                // 음식 이름 입력 필드
                 HStack {
                     Text("식단")
                         .font(.system(size: 20))
@@ -34,7 +36,7 @@ struct MealAddView: View {
                 }
                 TextField("음식 이름", text: $name)
                     .font(.title2)
-                    .frame(width: .infinity, height: 40)
+                    .frame(maxWidth: .infinity, maxHeight: 40)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 5)
                     .background(Color.gray.opacity(0.1))
@@ -46,15 +48,16 @@ struct MealAddView: View {
                     Spacer()
                 }
                 .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
+                // 칼로리 입력 필드
                 HStack {
                     TextField("칼로리", value: $calories, formatter: NumberFormatter())
-                        .frame(width: .infinity, height: 40)
                         .fontWeight(.bold)
                         .multilineTextAlignment(.trailing)
                         .padding(.vertical, 4)
                         .padding(.horizontal, 10)
                         .background(Color.gray.opacity(0.1))
                         .cornerRadius(10)
+                    Spacer()
                     ValueBox(unit: "kcal")
                 }
                 Spacer()

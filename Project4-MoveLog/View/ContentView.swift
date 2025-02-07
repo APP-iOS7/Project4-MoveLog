@@ -10,31 +10,33 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
+    
+    @Query private var myWorkout: [MyWorkout]
+    @Query private var meal: [Meal]
+    
     @State private var selectedDate: Date = Date()
     @State private var isFromNotification = false // 앱 실행 시 알람 클릭 여부 추적
     @State private var notificationExercise: ExerciseModel?
     @State private var showAlarmView = false
-    
-    @Query private var myWorkout: [MyWorkout]
-    @Query private var meal: [Meal]
     @State private var userProfile: UserProfile?
     @State private var showUserInfo = false
     
+    // 선택한 날짜에 해당하는 총 섭취 칼로리
     private var totalMealCalories: Int {
         mealForSelectedDate.reduce(0) { $0 + $1.calories }
     }
-    
+    // 선택한 날짜에 해당하는 총 소모 칼로리
     private var totalBurnedCalories: Int {
         Int(workoutForSelectedDate.reduce(0) { $0 + $1.burnedCalories })
     }
-    
+    // 선택한 날짜의 운동 기록 필터링
     var workoutForSelectedDate: [MyWorkout] {
         myWorkout.filter { item in
             let selectedDay = selectedDate.startOfDay()
             return Calendar.current.isDate(item.date, inSameDayAs: selectedDay)
         }
     }
-    
+    // 선택한 날짜의 식단 기록 필터링
     private var mealForSelectedDate: [Meal] {
         meal.filter { item in
             Calendar.current.isDate(item.date, inSameDayAs: selectedDate)
@@ -51,6 +53,7 @@ struct ContentView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .tint(Color("mainColor"))
                     Spacer(minLength: 30)
+                    // 칼로리 소비량 섹션
                     HStack {
                         Text("칼로리 소비량")
                             .font(.title2)
@@ -128,6 +131,7 @@ struct ContentView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .padding(.horizontal, 2)
                     Spacer(minLength: 30)
+                    // 운동 기록 섹션
                     VStack {
                         HStack {
                             Text("운동 기록")
@@ -167,6 +171,7 @@ struct ContentView: View {
                     }
                     
                     Spacer(minLength: 50)
+                    // 식단 기록 섹션
                     VStack {
                         HStack {
                             Text("식단 기록")
@@ -258,7 +263,7 @@ struct ContentView: View {
             .padding()
         }
     }
-    
+    // 사용자 프로필 데이터 불러오기
     private func loadUserProfile() {
         Task {
             do {

@@ -7,10 +7,11 @@
 import SwiftUI
 
 struct ExerciseAlarmView: View {
-    let exercise: ExerciseModel
     @State private var timeRemaining: Int = 60 // 기본 60초 타이머
     @State private var timerRunning = false
     @State private var timer: Timer?
+    
+    let exercise: ExerciseModel
 
     var body: some View {
         VStack(spacing: 20) {
@@ -88,6 +89,7 @@ struct ExerciseModel: Identifiable, Codable, Equatable {
     let name: String
     let description: String
     
+    /// 랜덤 운동을 반환하는 메서드
     static func randomExercise() -> ExerciseModel {
            return sampleExercises.randomElement() ?? sampleExercises[0]
        }

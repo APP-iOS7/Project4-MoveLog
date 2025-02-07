@@ -12,10 +12,12 @@ import SwiftData
 struct WorkoutEditView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-    let workout: Workout
+    
     @State private var selectedType: WorkoutType
     @State private var name: String = ""
     
+    let workout: Workout
+
     init(workout: Workout) {
         self.workout = workout
         _name = State(initialValue: workout.name)
@@ -23,7 +25,6 @@ struct WorkoutEditView: View {
     }
 
     var body: some View {
-
         NavigationStack {
             Spacer()
             List {
@@ -42,13 +43,10 @@ struct WorkoutEditView: View {
                 .pickerStyle(.menu)
                 .tint(Color("textColor"))
             }
-            
             .background(Color.gray.opacity(0.3))
             .cornerRadius(12)
             .padding(.horizontal, 20)
-            
         }
-        
         Spacer()
             .navigationTitle("운동 작성")
             .toolbar {
@@ -60,8 +58,6 @@ struct WorkoutEditView: View {
                         try? modelContext.save()
                         dismiss()
                     }
-                    
-                    
                 }
             }
     }

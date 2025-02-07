@@ -6,7 +6,7 @@ struct AlarmSettingsView: View {
     @AppStorage("alarmPeriod") private var alarmPeriod: String = "AM"
     @AppStorage("alarmSound") private var alarmSound: String = "벨소리"
     
-    @AppStorage("savedAlarms") private var savedAlarmsData: String = "[]" // 🔹 JSON 문자열로 저장
+    @AppStorage("savedAlarms") private var savedAlarmsData: String = "[]" // JSON 문자열로 저장
 
     let days = ["월", "화", "수", "목", "금", "토", "일"]
     let sounds = ["벨소리", "진동"]
@@ -70,7 +70,7 @@ struct AlarmSettingsView: View {
                 .tint(Color("mainColor"))
                 
 
-                // 🔹 저장된 알람 목록 표시
+                // 저장된 알람 목록 표시
                 List {
                     ForEach(savedAlarms) { alarm in
                         HStack {
@@ -80,11 +80,11 @@ struct AlarmSettingsView: View {
                                 .foregroundColor(.gray)
                         }
                     }
-                    .onDelete(perform: deleteAlarm) // 🔹 스와이프로 개별 삭제
+                    .onDelete(perform: deleteAlarm) // 스와이프로 개별 삭제
                 }
                 .frame(height: 200)
 
-                // 🔹 알람 전체 삭제 버튼
+                // 알람 전체 삭제 버튼
                 Button("모든 알람 삭제") {
                     removeAllAlarms()
                 }
@@ -103,7 +103,7 @@ struct AlarmSettingsView: View {
         }
     }
 
-    // ✅ 요일 선택 함수
+    /// 요일 선택 함수
     private func toggleDaySelection(_ day: String) {
         if alarmDays.contains(day) {
             alarmDays.remove(day)
@@ -112,15 +112,15 @@ struct AlarmSettingsView: View {
         }
     }
 
-    // ✅ 요일 정렬 함수
+    /// 요일 정렬 함수
     private let dayOrder: [String] = ["월", "화", "수", "목", "금", "토", "일"]
     private func daySort(_ a: String, _ b: String) -> Bool {
         return dayOrder.firstIndex(of: a) ?? 7 < dayOrder.firstIndex(of: b) ?? 7
     }
 
-    // ✅ 알람 저장 함수
+    /// 알람 저장 함수
     private func saveAlarm() {
-        let sortedDays = alarmDays.sorted(by: daySort) // ✅ 요일 정렬
+        let sortedDays = alarmDays.sorted(by: daySort)
 
         let newAlarm = AlarmModel(
             hour: alarmHour,
@@ -137,18 +137,18 @@ struct AlarmSettingsView: View {
         AlarmManager.shared.setAlarm(hour: alarmHour, minute: alarmMinute, period: alarmPeriod, days: Set(sortedDays), sound: alarmSound)
     }
 
-    // ✅ 알람 목록 로드 함수
+    /// 알람 목록 로드 함수
     private func loadAlarms() {
         if let data = savedAlarmsData.data(using: .utf8),
            let alarms = try? JSONDecoder().decode([AlarmModel].self, from: data) {
             self.savedAlarms = alarms.map { alarm in
-                let sortedDays = alarm.days.sorted(by: daySort) // ✅ 요일 정렬 적용
+                let sortedDays = alarm.days.sorted(by: daySort)
                 return AlarmModel(id: alarm.id, hour: alarm.hour, minute: alarm.minute, period: alarm.period, days: sortedDays, sound: alarm.sound)
             }
         }
     }
 
-    // ✅ 알람 저장 함수 (UserDefaults 사용)
+    /// 알람 저장 함수 (UserDefaults 사용)
     private func saveAlarmsToStorage() {
         if let data = try? JSONEncoder().encode(savedAlarms),
            let jsonString = String(data: data, encoding: .utf8) {
@@ -156,13 +156,13 @@ struct AlarmSettingsView: View {
         }
     }
 
-    // ✅ 개별 알람 삭제 함수
+    /// 개별 알람 삭제 함수
     private func deleteAlarm(at offsets: IndexSet) {
         savedAlarms.remove(atOffsets: offsets)
         saveAlarmsToStorage()
     }
 
-    // ✅ 전체 알람 삭제 함수
+    /// 전체 알람 삭제 함수
     private func removeAllAlarms() {
         savedAlarms.removeAll()
         savedAlarmsData = "[]"

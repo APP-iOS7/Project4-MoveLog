@@ -11,18 +11,19 @@ import SwiftData
 struct MealEditView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    
     @State var selectedDate: Date
-    let meals: Meal
     @State private var name: String = ""
     @State private var calories: Int = 0
     
+    let meals: Meal
+
     init(meals: Meal) {
         self.meals = meals
         _name = State(initialValue: meals.name)
         _calories = State(initialValue: meals.calories)
         _selectedDate = State(initialValue: meals.date)
     }
-    
     
     var body: some View {
         NavigationStack {

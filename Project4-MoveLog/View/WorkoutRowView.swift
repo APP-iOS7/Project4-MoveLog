@@ -34,7 +34,6 @@ struct WorkoutRowView: View {
         .padding(.vertical, 5)
         .padding(.horizontal, 10)
         .clipShape(RoundedRectangle(cornerRadius: 10))
-
     }
 }
 

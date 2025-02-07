@@ -11,9 +11,10 @@ import SwiftData
 struct MealRecordsView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-    let selectedDate: Date
+    
     @Query private var meal: [Meal]
     
+    let selectedDate: Date
  
     private var mealForSelectedDate: [Meal] {
         meal.filter { item in
@@ -25,7 +26,6 @@ struct MealRecordsView: View {
         VStack {
             HStack {
                 Text("식단 종류")
-
                     .font(.title2)
                     .fontWeight(.bold)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -56,16 +56,11 @@ struct MealRecordsView: View {
                 }
             }
             .listStyle(PlainListStyle())
-            
-           
-            
             Spacer()
         }
         .padding()
         .navigationTitle("식단 기록")
     }
-    
-   
 }
 
 #Preview {

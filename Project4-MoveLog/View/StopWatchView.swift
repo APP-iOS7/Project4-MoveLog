@@ -13,7 +13,6 @@ struct StopwatchView: View {
     @State private var elapsedTime: TimeInterval = 0
     @Binding var stoppedTime: TimeInterval // 정지된 시간 저장
 
-
     var body: some View {
         VStack {
             Text(formatTime(elapsedTime))
