@@ -102,14 +102,15 @@ struct UserProfileView: View {
     private func saveUserProfile() {
         guard let ageInt = Int(age),
               let heightDouble = Double(height),
-              let weightDouble = Double(weight) else { return }
-        
+              let weightDouble = Double(weight)
+        else { return }
         if let existingProfile = profile {
             // 기존 프로필 업데이트
             existingProfile.gender = gender
             existingProfile.age = ageInt
             existingProfile.height = heightDouble
             existingProfile.weight = weightDouble
+            existingProfile.bmr = bmr
         } else {
             // 새로운 프로필 생성 후 저장
             let newUser = UserProfile(gender: gender, age: ageInt, height: heightDouble, weight: weightDouble)
